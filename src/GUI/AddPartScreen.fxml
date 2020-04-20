@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          prefHeight="400.0" prefWidth="600.0">
+    <padding>
+        <Insets top="25" right="25" bottom="25" left="25"/>
+    </padding>
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="0" text="Add Part"/>
+    <RadioButton fx:id="inHouseRadioButton" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+    <RadioButton fx:id="outsourcedRadioButton" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+    <!-- Form fields -->
+
+    <VBox alignment="TOP_LEFT" GridPane.columnIndex="0" GridPane.rowIndex="2">
+        <!-- ID -->
+        <Label text="ID"/>
+        <TextField fx:id="idField" disable="true" />
+
+        <!-- Name -->
+        <Label text="Name" />
+        <TextField fx:id="nameField" />
+
+        <!-- Current stock -->
+        <Label text="Inventory" />
+        <TextField fx:id="inventoryField" />
+
+        <!-- Price -->
+        <Label text="Price" />
+        <TextField fx:id="priceField" />
+
+        <!-- Minimum stock -->
+        <Label text="Min" />
+        <TextField fx:id="minField" />
+
+        <!-- Maximum stock -->
+        <Label text="Max" />
+        <TextField fx:id="maxField" />
+
+        <!-- Machine ID -->
+        <Label text="Machine ID"/>
+        <TextField fx:id="machineIdField" visible="false" />
+
+        <!-- Company name -->
+        <Label text="Company name" />
+        <TextField fx:id="companyNameField" visible="false" />
+    </VBox>
+
+    <HBox>
+        <Button fx:id="saveButton" text="Save" onAction="#save" />
+        <Button fx:id="cancelButton" text="Cancel" />
+    </HBox>
+
+</GridPane>

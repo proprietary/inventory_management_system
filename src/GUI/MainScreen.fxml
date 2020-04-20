@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane alignment="center" hgap="10" prefHeight="445.0" prefWidth="711.0" vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller">
+<GridPane alignment="center" hgap="10" prefHeight="445.0" prefWidth="711.0" vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
     <padding>
         <Insets bottom="25" left="25" right="25" top="25" />
     </padding>
@@ -13,26 +13,53 @@
     <HBox GridPane.columnIndex="0" GridPane.rowIndex="0">
         <Text text="Inventory Management System"/>
     </HBox>
-    <GridPane alignment="left" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+    <GridPane alignment="TOP_LEFT" GridPane.columnIndex="0" GridPane.rowIndex="1" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
         <padding>
             <Insets bottom="10" left="10" right="10" top="25"/>
         </padding>
         <gridLinesVisible>true</gridLinesVisible>
         <Text text="Parts" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2" />
-        <Button text="Search" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-        <TableView GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.rowIndex="1" fx:id="productsTableView">
+        <TextField fx:id="productsQueryField" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+        <Button fx:id="productsSearchButton" text="Search" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+        <TableView GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.rowIndex="1" fx:id="partsTableView">
             <placeholder>
                 <Label text="No rows to display"/>
             </placeholder>
             <columns>
                 <TableColumn text="Part ID" fx:id="partIdColumn"/>
                 <TableColumn text="Part Name" fx:id="partNameColumn" />
-                <TableColumn text="Inventory Level" fx:id="inventoryLevelColumn"/>
-                <TableColumn text="Price/Cost per Unit" fx:id="priceOverCostPerUnitColumn"/>
+                <TableColumn text="Inventory Level" fx:id="partInventoryLevelColumn"/>
+                <TableColumn text="Price/Cost per Unit" fx:id="partPriceColumn"/>
             </columns>
         </TableView>
-        <Button text="Add" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-        <Button text="Modify" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-        <Button text="Delete" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+        <Button fx:id="addPartButton" text="Add" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <Button fx:id="modifyPartButton" text="Modify" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <Button fx:id="deletePartButton" text="Delete" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
     </GridPane>
+    <GridPane alignment="TOP_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+        <padding>
+            <Insets bottom="10" left="10" right="10" top="25"/>
+        </padding>
+        <gridLinesVisible>true</gridLinesVisible>
+        <Text text="Parts" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2" />
+        <TextField fx:id="partsQueryField" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+        <Button fx:id="partsSearchButton" text="Search" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+        <TableView GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.rowIndex="1" fx:id="productsTableView">
+            <placeholder>
+                <Label text="No rows to display"/>
+            </placeholder>
+            <columns>
+                <TableColumn text="Part ID" fx:id="productIdColumn"/>
+                <TableColumn text="Part Name" fx:id="productNameColumn" />
+                <TableColumn text="Inventory Level" fx:id="productInventoryLevelColumn"/>
+                <TableColumn text="Price/Cost per Unit" fx:id="productPriceColumn"/>
+            </columns>
+        </TableView>
+        <Button fx:id="addProductButton" text="Add" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <Button fx:id="modifyProductButton" text="Modify" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <Button fx:id="deleteProductButton" text="Delete" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+    </GridPane>
+    <HBox GridPane.columnIndex="1" GridPane.rowIndex="2">
+        <Button fx:id="exitButton" text="Exit"/>
+    </HBox>
 </GridPane>
