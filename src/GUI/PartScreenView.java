@@ -10,12 +10,12 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class PartScreenView extends Stage {
-    public PartScreenView () throws IOException {
-        initModality(APPLICATION_MODAL);
-        setTitle("Add/Modify Part");
-        FXMLLoader ldr = new FXMLLoader(getClass().getResource("AddPartScreen.fxml"));
-        ldr.setController(new AddPartScreen());
-        Parent root = ldr.load();
-        setScene(new Scene(root));
-    }
+//    public PartScreenView () throws IOException {
+//        initModality(APPLICATION_MODAL);
+//        setTitle("Add/Modify Part");
+//        FXMLLoader ldr = new FXMLLoader(getClass().getResource("PartScreen.fxml"));
+//        ldr.setController(new PartScreen());
+//        Parent root = ldr.load();
+//        setScene(new Scene(root));
+//    }
 }

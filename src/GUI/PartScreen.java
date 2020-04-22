@@ -12,7 +12,8 @@ import model.Part;
 
 import java.util.Optional;
 
-public class AddPartScreen {
+public class PartScreen {
+    private int index_;
     private ToggleGroup productType;
     @FXML private RadioButton inHouseRadioButton;
     @FXML private RadioButton outsourcedRadioButton;
@@ -29,9 +30,14 @@ public class AddPartScreen {
     private ObservableList<Part> allParts;
     private CreateOrUpdateMode mode;
 
-    public AddPartScreen(ObservableList<Part> allParts, CreateOrUpdateMode mode) {
+    public PartScreen(ObservableList<Part> allParts, CreateOrUpdateMode mode) {
         this.allParts = allParts;
         this.mode = mode;
+    }
+
+    public PartScreen(ObservableList<Part> allParts, CreateOrUpdateMode mode, int index) {
+        this(allParts, mode);
+        this.index_ = index;
     }
 
     @FXML public void initialize() {
@@ -44,6 +50,22 @@ public class AddPartScreen {
         // show different fields based on which radio is toggled
         inHouseRadioButton.setOnAction(evt -> { updateBasedOnPartType(); });
         outsourcedRadioButton.setOnAction(evt -> { updateBasedOnPartType(); });
+
+        // For modifying an existing part: Populate fields
+        if (mode == CreateOrUpdateMode.UPDATE) {
+            Part existingPart = this.allParts.get(this.index_);
+            idField.setText(Integer.toString(existingPart.getId()));
+            nameField.setText(existingPart.getName());
+            inventoryField.setText(Integer.toString(existingPart.getStock()));
+            priceField.setText(Double.toString(existingPart.getPrice()));
+            minField.setText(Integer.toString(existingPart.getMin()));
+            maxField.setText(Integer.toString(existingPart.getMax()));
+            if (existingPart instanceof Outsourced) {
+                companyNameField.setText(((Outsourced) existingPart).getCompanyName());
+            } else if (existingPart instanceof InHouse) {
+                machineIdField.setText(Integer.toString(((InHouse) existingPart).getMachineId()));
+            }
+        }
     }
 
     private void updateBasedOnPartType() {

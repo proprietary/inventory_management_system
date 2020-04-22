@@ -4,7 +4,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,9 +23,11 @@ import static javafx.stage.Modality.APPLICATION_MODAL;
 public class Controller {
     @FXML private Button exitButton;
     @FXML private Button addPartButton;
+    @FXML private Button modifyPartButton;
 
     // products table
     private final ArrayList<Product> products;
+    private ObservableList<Product> products_;
     @FXML private TableView<Product> productsTableView;
     @FXML private TextField productsQueryField;
     @FXML private Button productsSearchButton;
@@ -37,6 +38,7 @@ public class Controller {
 
     // parts table
     private final ArrayList<Part> parts;
+    private ObservableList<Part> parts_;
     @FXML private TableView<Part> partsTableView;
     @FXML private TextField partsQueryField;
     @FXML private Button partsSearchButton;
@@ -47,6 +49,8 @@ public class Controller {
 
     public Controller(ArrayList<Part> parts, ArrayList<Product> products) {
         this.parts = parts;
+        this.parts_ = FXCollections.observableArrayList(parts);
+        this.products_ = FXCollections.observableArrayList(products);
         this.products = products;
     }
 
@@ -95,8 +99,25 @@ public class Controller {
                 Stage v = new Stage();
                 v.initModality(APPLICATION_MODAL);
                 v.setTitle("Add/Modify Part");
-                FXMLLoader ldr = new FXMLLoader(getClass().getResource("AddPartScreen.fxml"));
-                ldr.setController(new AddPartScreen());
+                FXMLLoader ldr = new FXMLLoader(getClass().getResource("PartScreen.fxml"));
+                ldr.setController(new PartScreen(this.parts_, CreateOrUpdateMode.CREATE));
+                Parent root = ldr.load();
+                v.setScene(new Scene(root));
+                v.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.err.println(e.getMessage());
+                System.exit(1);
+            }
+        });
+
+        modifyPartButton.setOnAction(evt -> {
+            try {
+                Stage v = new Stage();
+                v.initModality(APPLICATION_MODAL);
+                v.setTitle("Modify Part");
+                FXMLLoader ldr = new FXMLLoader(getClass().getResource("PartScreen.fxml"));
+                ldr.setController(new PartScreen(this.parts_, CreateOrUpdateMode.UPDATE, 0));
                 Parent root = ldr.load();
                 v.setScene(new Scene(root));
                 v.show();
