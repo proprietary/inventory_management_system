@@ -16,6 +16,9 @@
     </padding>
     <Text GridPane.columnIndex="0" GridPane.rowIndex="0" text="Add Part"/>
     <VBox GridPane.columnIndex="0" GridPane.rowIndex="1">
+        <padding>
+            <Insets top="10" bottom="10" />
+        </padding>
         <Label text="In House"/>
         <RadioButton fx:id="inHouseRadioButton" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
         <Label text="Outsourced"/>
@@ -51,14 +54,17 @@
 
         <!-- Machine ID -->
         <Label text="Machine ID"/>
-        <TextField fx:id="machineIdField" visible="false" />
+        <TextField fx:id="machineIdField" disable="true" />
 
         <!-- Company name -->
         <Label text="Company name" />
-        <TextField fx:id="companyNameField" visible="false" />
+        <TextField fx:id="companyNameField" disable="true" />
     </VBox>
 
-    <HBox>
+    <HBox GridPane.columnIndex="0" GridPane.rowIndex="3">
+        <padding>
+            <Insets top="30" />
+        </padding>
         <Button fx:id="saveButton" text="Save" onAction="#save" />
         <Button fx:id="cancelButton" text="Cancel" />
     </HBox>

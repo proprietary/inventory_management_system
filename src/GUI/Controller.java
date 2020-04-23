@@ -62,7 +62,7 @@ public class Controller {
         productInventoryLevelColumn.setCellValueFactory(new PropertyValueFactory<Product, Integer>("stock"));
         productPriceColumn.setCellValueFactory(new PropertyValueFactory<Product, Double>("price"));
         // configure search results
-        FilteredList<Product> productSearchResults = new FilteredList<>(FXCollections.observableArrayList(products));
+        FilteredList<Product> productSearchResults = new FilteredList<>(this.products_);
         productsTableView.setItems(productSearchResults);
         // filter search results to query
         EventHandler<ActionEvent> handleProductSearch = actionEvent -> {
@@ -79,7 +79,7 @@ public class Controller {
         partInventoryLevelColumn.setCellValueFactory(new PropertyValueFactory<Part, Integer>("stock"));
         partPriceColumn.setCellValueFactory(new PropertyValueFactory<Part, Double>("price"));
         // configure search results
-        FilteredList<Part> partSearchResults = new FilteredList<>(FXCollections.observableArrayList(parts));
+        FilteredList<Part> partSearchResults = new FilteredList<>(this.parts_);
         partsTableView.setItems(partSearchResults);
         // filter search results to query
         EventHandler<ActionEvent> handlePartSearch = actionEvent -> {

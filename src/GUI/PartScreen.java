@@ -44,8 +44,9 @@ public class PartScreen {
         // Radio button logic
 
         // ensure that only one of either In House or Outsourced can be checked
-        inHouseRadioButton.setToggleGroup(productType);
-        outsourcedRadioButton.setToggleGroup(productType);
+        ToggleGroup tg = new ToggleGroup();
+        inHouseRadioButton.setToggleGroup(tg);
+        outsourcedRadioButton.setToggleGroup(tg);
 
         // show different fields based on which radio is toggled
         inHouseRadioButton.setOnAction(evt -> { updateBasedOnPartType(); });
@@ -61,30 +62,45 @@ public class PartScreen {
             minField.setText(Integer.toString(existingPart.getMin()));
             maxField.setText(Integer.toString(existingPart.getMax()));
             if (existingPart instanceof Outsourced) {
+                outsourcedRadioButton.setSelected(true);
+                updateBasedOnPartType();
                 companyNameField.setText(((Outsourced) existingPart).getCompanyName());
             } else if (existingPart instanceof InHouse) {
+                inHouseRadioButton.setSelected(true);
+                updateBasedOnPartType();
                 machineIdField.setText(Integer.toString(((InHouse) existingPart).getMachineId()));
             }
+        } else if (mode == CreateOrUpdateMode.CREATE) {
+            // select In House as the default mode
+            inHouseRadioButton.setSelected(true);
+            updateBasedOnPartType();
         }
     }
 
     private void updateBasedOnPartType() {
         // show either Machine ID field or Company name field
-        machineIdField.setVisible(isInHouse());
-        companyNameField.setVisible(isOutsourced());
+        machineIdField.setDisable(isOutsourced());
+        companyNameField.setDisable(isInHouse());
     }
 
     @FXML private void save() {
         // TODO
         // TODO detect if already exists
-        final Optional<Part> p = createNewPart();
+        final Optional<Part> p = snapshot();
         if (!p.isPresent()) {
             return;
         }
-        System.out.println(p.get().getName() + " saved!");
+        p.ifPresent(part -> {
+            System.out.println(p.get().getName() + " saved!");
+            allParts.add(part);
+        });
     }
 
-    private Optional<Part> createNewPart() {
+    /**
+     * Capture snapshot of the form state as a Part object
+     * @return Optional of the Part type; if form state is invalid, an empty Optional
+     */
+    private Optional<Part> snapshot() {
         String name = nameField.getText();
         int stock = Integer.parseInt(inventoryField.getText());
         double price = Double.parseDouble(priceField.getText());
