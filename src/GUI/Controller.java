@@ -24,6 +24,8 @@ public class Controller {
     @FXML private Button exitButton;
     @FXML private Button addPartButton;
     @FXML private Button modifyPartButton;
+    @FXML private Button addProductButton;
+    @FXML private Button modifyProductButton;
 
     // products table
     private final ArrayList<Product> products;
@@ -127,5 +129,25 @@ public class Controller {
                 System.exit(1);
             }
         });
+
+        addProductButton.setOnAction(evt -> { launchProductWindow(new ProductScreen(this.products_)); });
+        modifyProductButton.setOnAction(evt -> { launchProductWindow(new ProductScreen(this.products_, 0)); });
+    }
+
+    private void launchProductWindow(ProductScreen screenController) {
+        try {
+            Stage s = new Stage();
+            s.initModality(APPLICATION_MODAL);
+            s.setTitle("Add/Modify Product");
+            FXMLLoader ldr = new FXMLLoader(getClass().getResource("ProductScreen.fxml"));
+            ldr.setController(screenController);
+            Parent root = ldr.load();
+            s.setScene(new Scene(root));
+            s.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.err.println(e.getMessage());
+            System.exit(1);
+        }
     }
 }

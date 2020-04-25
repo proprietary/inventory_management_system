@@ -3,6 +3,8 @@ package model;
 import javafx.collections.ObservableList;
 
 public class Product implements IndexedById {
+    /// Auto-incremented ID counter
+    private static int IdSequence = 0;
     private ObservableList<Part> associatedParts;
     private int id;
     private String name;
@@ -13,11 +15,23 @@ public class Product implements IndexedById {
 
     public Product(int id, String name, double price, int stock, int min, int max) {
         this.id = id;
+        if (IdSequence < id) {
+            // update auto-increment counter to highest value
+            IdSequence = id;
+        }
         this.name = name;
         this.price = price;
         this.stock = stock;
         this.min = min;
         this.max = max;
+    }
+
+    public Product(String name, double price, int stock, int min, int max) {
+        this(GenerateId(), name, price, stock, min, max);
+    }
+
+    public static int GenerateId() {
+        return ++IdSequence;
     }
 
     public void setId(int id) {

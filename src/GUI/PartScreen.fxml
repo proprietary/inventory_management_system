@@ -12,10 +12,12 @@
           xmlns:fx="http://javafx.com/fxml"
           prefHeight="400.0" prefWidth="600.0">
     <padding>
-        <Insets top="25" right="25" bottom="25" left="25"/>
+        <Insets top="50" right="25" bottom="25" left="25"/>
     </padding>
     <Text GridPane.columnIndex="0" GridPane.rowIndex="0" text="Add Part"/>
+    <vgap>5</vgap>
     <VBox GridPane.columnIndex="0" GridPane.rowIndex="1">
+        <spacing>5</spacing>
         <padding>
             <Insets top="10" bottom="10" />
         </padding>
@@ -66,7 +68,7 @@
             <Insets top="30" />
         </padding>
         <Button fx:id="saveButton" text="Save" onAction="#save" />
-        <Button fx:id="cancelButton" text="Cancel" />
+        <Button fx:id="cancelButton" text="Cancel" onAction="#closeModal" />
     </HBox>
 
 </GridPane>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.Font?>
+<BorderPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          prefHeight="400.0" prefWidth="600.0">
+    <top>
+        <Text fx:id="title" text="getTitleText()" GridPane.columnIndex="0" GridPane.rowIndex="0">
+            <font>
+                <Font name="Arial" size="15"/>
+            </font>
+        </Text>
+    </top>
+    <center>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="25" right="25" bottom="25" left="25"/>
+            </padding>
+            <HBox spacing="50">
+                <Label text="ID" HBox.hgrow="ALWAYS" prefWidth="50" />
+                <TextField fx:id="idField" disable="true" HBox.hgrow="ALWAYS" />
+            </HBox>
+            <HBox spacing="50">
+                <Label text="Name" HBox.hgrow="ALWAYS" prefWidth="50" />
+                <TextField fx:id="productNameField" HBox.hgrow="ALWAYS" />
+            </HBox>
+            <HBox spacing="50">
+                <Label text="Inv" HBox.hgrow="ALWAYS" prefWidth="50" />
+                <TextField fx:id="invField" HBox.hgrow="ALWAYS" />
+            </HBox>
+            <HBox spacing="50">
+                <Label text="Price" HBox.hgrow="ALWAYS" prefWidth="50" />
+                <TextField fx:id="priceField" HBox.hgrow="ALWAYS" />
+            </HBox>
+            <HBox spacing="50">
+                <Label text="Min" HBox.hgrow="ALWAYS" prefWidth="50" />
+                <TextField fx:id="minField" HBox.hgrow="ALWAYS" />
+            </HBox>
+            <HBox spacing="50">
+                <Label text="Max" HBox.hgrow="ALWAYS" prefWidth="50" />
+                <TextField fx:id="maxField" HBox.hgrow="ALWAYS" />
+            </HBox>
+        </VBox>
+    </center>
+    <bottom>
+        <HBox spacing="10">
+            <Button fx:id="saveButton" text="Save" onAction="#save" />
+            <Button fx:id="cancelButton" text="Cancel" onAction="#closeModal" />
+        </HBox>
+
+    </bottom>
+</BorderPane>

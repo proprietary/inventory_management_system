@@ -2,10 +2,8 @@ package GUI;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
 import model.InHouse;
 import model.Outsourced;
 import model.Part;
@@ -75,6 +73,12 @@ public class PartScreen {
             inHouseRadioButton.setSelected(true);
             updateBasedOnPartType();
         }
+
+        // set up input masks--prevent incorrectly formatted input
+        inventoryField.setTextFormatter(new TextFormatter<String>(FormattedTextFields.integerFieldFormatter));
+        priceField.setTextFormatter(new TextFormatter<String>(FormattedTextFields.doubleFieldFormatter));
+        minField.setTextFormatter(new TextFormatter<String>(FormattedTextFields.integerFieldFormatter));
+        maxField.setTextFormatter(new TextFormatter<String>(FormattedTextFields.integerFieldFormatter));
     }
 
     private void updateBasedOnPartType() {
@@ -87,9 +91,6 @@ public class PartScreen {
         // TODO
         // TODO detect if already exists
         final Optional<Part> p = snapshot();
-        if (!p.isPresent()) {
-            return;
-        }
         p.ifPresent(part -> {
             System.out.println(p.get().getName() + " saved!");
             allParts.add(part);
@@ -106,6 +107,11 @@ public class PartScreen {
         double price = Double.parseDouble(priceField.getText());
         int min = Integer.parseInt(minField.getText());
         int max = Integer.parseInt(maxField.getText());
+        if (max < min) {
+            // Display error message
+            Alert.display("The minimum number of parts should not exceed the maximum number of parts.");
+            return Optional.empty();
+        }
         if (isInHouse()) {
             int machineId = Integer.parseInt(machineIdField.getText());
             InHouse newPart = new InHouse(10 /* TODO refactor to static autoincrementor */, name, price, stock, min, max, machineId);
@@ -124,5 +130,10 @@ public class PartScreen {
 
     private boolean isOutsourced() {
         return outsourcedRadioButton.isSelected();
+    }
+
+    @FXML private void closeModal() {
+        Stage s = (Stage) cancelButton.getScene().getWindow();
+        s.close();
     }
 }
