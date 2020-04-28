@@ -1,5 +1,6 @@
 package model;
 
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -8,23 +9,23 @@ public class Product implements IndexedById {
     private static int IdSequence = 0;
     private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
     private int id;
-    private String name;
-    private double price;
-    private int stock;
-    private int min;
-    private int max;
+    private StringProperty nameProperty = new SimpleStringProperty();
+    private DoubleProperty priceProperty = new SimpleDoubleProperty();
+    private IntegerProperty stockProperty = new SimpleIntegerProperty();
+    private IntegerProperty minProperty = new SimpleIntegerProperty();
+    private IntegerProperty maxProperty = new SimpleIntegerProperty();
 
     public Product(int id, String name, double price, int stock, int min, int max) {
         this.id = id;
         if (IdSequence < id) {
             // update auto-increment counter to highest value
-            IdSequence = id;
+            IdSequence = ++id;
         }
-        this.name = name;
-        this.price = price;
-        this.stock = stock;
-        this.min = min;
-        this.max = max;
+        this.nameProperty.set(name);
+        this.priceProperty.set(price);
+        this.stockProperty.set(stock);
+        this.minProperty.set(min);
+        this.maxProperty.set(max);
     }
 
     public Product(String name, double price, int stock, int min, int max) {
@@ -39,56 +40,77 @@ public class Product implements IndexedById {
         this.id = id;
     }
 
+    public String getName() {
+        return nameProperty.get();
+    }
+
     public void setName(String name) {
-        this.name = name;
+        nameProperty.set(name);
     }
 
     public void setStock(int stock) {
-        this.stock = stock;
+        stockProperty.set(stock);
     }
 
     public void setMin(int min) {
-        this.min = min;
+        minProperty.set(min);
     }
 
     public void setMax(int max) {
-        this.max = max;
+        maxProperty.set(max);
     }
 
     public void setPrice(double price) {
-        this.price = price;
+        priceProperty.set(price);
     }
 
     public int getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public double getPrice() {
-        return price;
+        return priceProperty.get();
     }
 
     public int getStock() {
-        return stock;
+        return stockProperty.get();
     }
 
     public int getMin() {
-        return min;
+        return minProperty.get();
     }
 
     public int getMax() {
-        return max;
+        return maxProperty.get();
+    }
+
+    public StringProperty nameProperty() {
+        return nameProperty;
+    }
+
+    public IntegerProperty stockProperty() {
+        return stockProperty;
+    }
+
+    public DoubleProperty priceProperty() {
+        return priceProperty;
+    }
+
+    public IntegerProperty minProperty() {
+        return minProperty;
+    }
+
+    public IntegerProperty maxProperty() {
+        return maxProperty;
     }
 
     public ObservableList<Part> getAllAssociatedParts() {
         return associatedParts;
     }
 
-    public void addAssociatedPart(Part part) {
-        associatedParts.add(part);
+    public void addAssociatedPart(Part... parts) {
+        for (final Part p : parts)
+            associatedParts.add(p);
     }
 
     public boolean deleteAssociatedPart(Part selectedPart) {

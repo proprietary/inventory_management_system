@@ -1,5 +1,6 @@
 package GUI;
 
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;
@@ -22,60 +23,59 @@ import java.util.function.Function;
 import java.util.function.UnaryOperator;
 
 import javafx.stage.Stage;
+import javafx.util.converter.NumberStringConverter;
 import model.Part;
 import model.Product;
 
-public class ProductScreen {
-    @FXML private Button cancelButton, saveButton, partsSearchButton, addPartButton;
-    @FXML private Text title;
-    @FXML private TextField idField;
-    @FXML private TextField productNameField, invField, priceField, minField, maxField;
-    @FXML private TableView<Part> associatedPartsTableView;
-    @FXML private TableView<Part> partsSearchTableView;
-    @FXML private TableColumn<Part, Integer> idColumn, inventoryColumn, partsSearchIdColumn, partsSearchInventoryColumn;
-    @FXML private TableColumn<Part, String> nameColumn, partsSearchNameColumn;
-    @FXML private TableColumn<Part, Double> priceColumn, partsSearchPriceColumn;
-    @FXML private TextField partsSearchQueryField;
-    private final ObservableList<Part> parts;
-    private final ObservableList<Product> products;
-    /// Index into the products list. Only applicable for Modify mode.
-    private int index = -1;
-    private final CreateOrUpdateMode mode;
+abstract public class ProductScreen {
+    @FXML protected Button cancelButton, saveButton, partsSearchButton, addPartButton;
+    @FXML protected Text title;
+    @FXML protected TextField idField;
+    @FXML protected TextField productNameField, invField, priceField, minField, maxField;
+    @FXML protected TableView<Part> associatedPartsTableView;
+    @FXML protected TableView<Part> partsSearchTableView;
+    @FXML protected TableColumn<Part, Integer> idColumn, inventoryColumn, partsSearchIdColumn, partsSearchInventoryColumn;
+    @FXML protected TableColumn<Part, String> nameColumn, partsSearchNameColumn;
+    @FXML protected TableColumn<Part, Double> priceColumn, partsSearchPriceColumn;
+    @FXML protected TextField partsSearchQueryField;
+    protected final ObservableList<Part> parts;
+    protected final ObservableList<Product> products;
 
-    private ProductScreen(ObservableList<Product> products, ObservableList<Part> parts, CreateOrUpdateMode mode, int index) {
+    protected ProductScreen(ObservableList<Product> products, ObservableList<Part> parts) {
         this.products = products;
         this.parts = parts;
-        this.mode = mode;
-        this.index = index;
     }
 
-    public ProductScreen(ObservableList<Product> products, int index, ObservableList<Part> parts) {
-        this(products, parts, CreateOrUpdateMode.UPDATE, index);
-    }
+    protected abstract Product getProductModel();
 
-    public ProductScreen(ObservableList<Product> products, ObservableList<Part> parts) {
-        this(products, parts, CreateOrUpdateMode.CREATE, -1);
-    }
-
-    @FXML private void initialize() {
-        // change title text
-        if (this.mode == CreateOrUpdateMode.CREATE) {
-            title.setText("Add Product");
-        } else if (this.mode == CreateOrUpdateMode.UPDATE) {
-            title.setText("Modify Product");
-            // populate fields with existing data
-            Product p = this.getProductModel();
-            idField.setText(Integer.toString(p.getId()));
-            productNameField.setText(p.getName());
-            invField.setText(Integer.toString(p.getStock()));
-            priceField.setText(Double.toString(p.getPrice()));
-            minField.setText(Integer.toString(p.getMin()));
-            maxField.setText(Integer.toString(p.getMax()));
-            associatedPartsTableView.setItems(p.getAllAssociatedParts());
-        }
-
+    @FXML protected void initialize() {
         // Tables
+        initPartSearchTable();
+        initAssociatedPartsTable();
+        // Bind text fields to data
+        initBindings();
+        // Prohibit nonsensical input into text fields
+        initInputMasks();
+    }
 
+    private void initBindings() {
+        Bindings.bindBidirectional(productNameField.textProperty(), getProductModel().nameProperty());
+        Bindings.bindBidirectional(priceField.textProperty(), getProductModel().priceProperty(), new NumberStringConverter());
+        Bindings.bindBidirectional(invField.textProperty(), getProductModel().stockProperty(), new NumberStringConverter());
+        Bindings.bindBidirectional(minField.textProperty(), getProductModel().minProperty(), new NumberStringConverter());
+        Bindings.bindBidirectional(maxField.textProperty(), getProductModel().maxProperty(), new NumberStringConverter());
+    }
+
+    private void initAssociatedPartsTable() {
+        // bind the table columns to the products data store
+        idColumn.setCellValueFactory(new PropertyValueFactory<Part, Integer>("id"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<Part, String>("name"));
+        inventoryColumn.setCellValueFactory(new PropertyValueFactory<Part, Integer>("stock"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<Part, Double>("price"));
+        associatedPartsTableView.setItems(getProductModel().getAllAssociatedParts());
+    }
+
+    private void initPartSearchTable() {
         // parts search has all the parts
         partsSearchIdColumn.setCellValueFactory(new PropertyValueFactory<Part, Integer>("id"));
         partsSearchNameColumn.setCellValueFactory(new PropertyValueFactory<Part, String>("name"));
@@ -95,78 +95,30 @@ public class ProductScreen {
         partsSearchButton.setOnAction(evt -> {
             handleQueryChange.accept(partsSearchQueryField.getText());
         });
-        // add selected part to associated parts list
-        addPartButton.setOnAction(evt -> {
-            final Part selectedPart = partsSearchTableView.getSelectionModel().getSelectedItem();
-            final Product thisProduct = this.getProductModel();
-            if (selectedPart != null && thisProduct != null)
-                thisProduct.addAssociatedPart(selectedPart);
-        });
-        // bind the table columns to the products data store
-        idColumn.setCellValueFactory(new PropertyValueFactory<Part, Integer>("id"));
-        nameColumn.setCellValueFactory(new PropertyValueFactory<Part, String>("name"));
-        inventoryColumn.setCellValueFactory(new PropertyValueFactory<Part, Integer>("stock"));
-        priceColumn.setCellValueFactory(new PropertyValueFactory<Part, Double>("price"));
-
-        initInputMasks();
     }
 
-    @FXML private void save() {
-        snapshot().ifPresent((Product p) -> {
-            if (this.mode == CreateOrUpdateMode.CREATE) {
-                this.products.add(p);
-            } else {
-                this.products.set(this.index, p);
-            }
-        });
-    }
+    protected abstract void save();
 
     @FXML private void closeModal() {
         Stage s = (Stage) cancelButton.getScene().getWindow();
         s.close();
     }
 
-    /**
-     * Get the current state of the form as a Java object
-     * @return Product object if valid; empty if form is invalid
-     */
-    private Optional<Product> snapshot() {
-        try {
-            Product p = new Product(getName(), getPrice(), getInv(), getMin(), getMax());
-            return Optional.of(p);
-        } catch (NumberFormatException e){
-            e.printStackTrace();
-            return Optional.empty();
-        }
+    @FXML private void addAssociatedPart() {
+        final Part selectedPart = partsSearchTableView.getSelectionModel().getSelectedItem();
+        final Product thisProduct = this.getProductModel();
+        if (selectedPart != null && thisProduct != null)
+            thisProduct.addAssociatedPart(selectedPart);
     }
 
-    private String getName() {
-        return productNameField.getText();
+    @FXML private void deleteAssociatedPart() {
+        getSelectedAssociatedPart().ifPresent((final Part p) -> {
+            getProductModel().deleteAssociatedPart(p);
+        });
     }
 
-    private double getPrice() {
-        return Double.parseDouble(priceField.getText());
-    }
-
-    private int getInv() {
-        return Integer.parseInt(invField.getText());
-    }
-
-    private int getMin() {
-        return Integer.parseInt(minField.getText());
-
-    }
-
-    private int getMax() {
-        return Integer.parseInt(maxField.getText());
-    }
-
-    private Product getProductModel() {
-        if (this.mode == CreateOrUpdateMode.CREATE) {
-            // TODO store a persistent object reference for the newly created Product
-        } else if (this.mode == CreateOrUpdateMode.UPDATE) {
-        }
-        return this.products.get(this.index);
+    private Optional<Part> getSelectedAssociatedPart() {
+        return Optional.ofNullable(this.associatedPartsTableView.getSelectionModel().getSelectedItem());
     }
 
     private void initInputMasks() {

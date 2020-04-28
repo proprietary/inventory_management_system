@@ -66,7 +66,7 @@
                         <TableColumn text="Price per Unit" fx:id="partsSearchPriceColumn" />
                     </columns>
                 </TableView>
-                <Button fx:id="addPartButton" text="Add" />
+                <Button fx:id="addPartButton" text="Add" onAction="#addAssociatedPart" />
                 <TableView fx:id="associatedPartsTableView">
                     <placeholder>
                         <Label text="No rows to display."/>
@@ -78,7 +78,7 @@
                         <TableColumn text="Price per Unit" fx:id="priceColumn" />
                     </columns>
                 </TableView>
-                <Button fx:id="deleteAssociatedPartButton" text="Delete" />
+                <Button fx:id="deleteAssociatedPartButton" text="Delete" onAction="#deleteAssociatedPart" />
             </VBox>
         </HBox>
     </center>

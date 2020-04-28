@@ -157,13 +157,13 @@ public class Controller {
         getSelectedProduct().ifPresent((Product p) -> {
             int idx = this.products_.indexOf(p);
             if (idx != -1)
-                launchProductWindow(new ProductScreen(this.products_, idx, this.parts_));
+                launchProductWindow(new ModifyProductScreen(this.products_, this.parts_, idx));
         });
     }
 
     @FXML
     private void addProduct() {
-        launchProductWindow(new ProductScreen(this.products_, this.parts_));
+        launchProductWindow(new AddProductScreen(this.products_, this.parts_));
     }
 
     @FXML
