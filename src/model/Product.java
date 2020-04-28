@@ -19,7 +19,7 @@ public class Product implements IndexedById {
         this.id = id;
         if (IdSequence < id) {
             // update auto-increment counter to highest value
-            IdSequence = ++id;
+            IdSequence = id;
         }
         this.nameProperty.set(name);
         this.priceProperty.set(price);

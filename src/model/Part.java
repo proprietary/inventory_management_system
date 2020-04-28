@@ -1,44 +1,56 @@
 package model;
 
+import javafx.beans.property.*;
+
 public abstract class Part implements IndexedById {
     private int id;
-    private String name;
-    private double price;
-    private int stock;
-    private int min;
-    private int max;
+    /// IdSequence holds the highest auto-incrementing number
+    private static int IdSequence = 0;
+    private StringProperty nameProperty = new SimpleStringProperty();
+    private DoubleProperty priceProperty = new SimpleDoubleProperty();
+    private IntegerProperty stockProperty = new SimpleIntegerProperty();
+    private IntegerProperty minProperty = new SimpleIntegerProperty();
+    private IntegerProperty maxProperty = new SimpleIntegerProperty();
 
-    public Part(int id, String name, double price, int stock, int min, int max) {
+    private Part(int id, String name, double price, int stock, int min, int max) {
+        // update auto-incremented id to highest value
+        if (id > IdSequence) {
+            IdSequence = id;
+        }
         this.id = id;
-        this.name = name;
-        this.price = price;
-        this.stock = stock;
-        this.min = min;
-        this.max = max;
+        this.nameProperty.set(name);
+        this.priceProperty.set(price);
+        this.stockProperty.set(stock);
+        this.minProperty.set(min);
+        this.maxProperty.set(max);
     }
 
-    public void setId(int id) {
-        this.id = id;
+    protected Part(String name, double price, int stock, int min, int max) {
+        this(GenerateId(), name, price, stock, min, max);
+    }
+
+    private static int GenerateId() {
+        return ++IdSequence;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.nameProperty.set(name);
     }
 
     public void setPrice(double price) {
-        this.price = price;
+        this.priceProperty.set(price);
     }
 
     public void setStock(int stock) {
-        this.stock = stock;
+        this.stockProperty.set(stock);
     }
 
     public void setMin(int min) {
-        this.min = min;
+        this.minProperty.set(min);
     }
 
     public void setMax(int max) {
-        this.max = max;
+        this.maxProperty.set(max);
     }
 
     public int getId() {
@@ -46,22 +58,22 @@ public abstract class Part implements IndexedById {
     }
 
     public String getName() {
-        return name;
+        return nameProperty.get();
     }
 
     public double getPrice() {
-        return price;
+        return priceProperty.get();
     }
 
     public int getStock() {
-        return stock;
+        return stockProperty.get();
     }
 
     public int getMin() {
-        return min;
+        return minProperty.get();
     }
 
     public int getMax() {
-        return max;
+        return maxProperty.get();
     }
 }
