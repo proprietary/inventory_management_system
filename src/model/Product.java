@@ -1,11 +1,12 @@
 package model;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Product implements IndexedById {
     /// Auto-incremented ID counter
     private static int IdSequence = 0;
-    private ObservableList<Part> associatedParts;
+    private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
     private int id;
     private String name;
     private double price;

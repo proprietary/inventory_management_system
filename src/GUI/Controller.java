@@ -17,37 +17,49 @@ import model.Product;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import static javafx.stage.Modality.APPLICATION_MODAL;
 
 public class Controller {
-    @FXML private Button exitButton;
-    @FXML private Button addPartButton;
-    @FXML private Button modifyPartButton;
-    @FXML private Button addProductButton;
-    @FXML private Button modifyProductButton;
+    @FXML
+    private Button addPartButton, modifyPartButton, addProductButton, modifyProductButton, deletePartButton, deleteProductButton;
 
     // products table
     private final ArrayList<Product> products;
     private ObservableList<Product> products_;
-    @FXML private TableView<Product> productsTableView;
-    @FXML private TextField productsQueryField;
-    @FXML private Button productsSearchButton;
-    @FXML private TableColumn<Product, Integer> productIdColumn;
-    @FXML private TableColumn<Product, String> productNameColumn;
-    @FXML private TableColumn<Product, Integer> productInventoryLevelColumn;
-    @FXML private TableColumn<Product, Double> productPriceColumn;
+    @FXML
+    private TableView<Product> productsTableView;
+    @FXML
+    private TextField productsQueryField;
+    @FXML
+    private Button productsSearchButton;
+    @FXML
+    private TableColumn<Product, Integer> productIdColumn;
+    @FXML
+    private TableColumn<Product, String> productNameColumn;
+    @FXML
+    private TableColumn<Product, Integer> productInventoryLevelColumn;
+    @FXML
+    private TableColumn<Product, Double> productPriceColumn;
 
     // parts table
     private final ArrayList<Part> parts;
     private ObservableList<Part> parts_;
-    @FXML private TableView<Part> partsTableView;
-    @FXML private TextField partsQueryField;
-    @FXML private Button partsSearchButton;
-    @FXML private TableColumn<Part, Integer> partIdColumn;
-    @FXML private TableColumn<Part, String> partNameColumn;
-    @FXML private TableColumn<Part, Integer> partInventoryLevelColumn;
-    @FXML private TableColumn<Part, Double> partPriceColumn;
+    @FXML
+    private TableView<Part> partsTableView;
+    @FXML
+    private TextField partsQueryField;
+    @FXML
+    private Button partsSearchButton;
+    @FXML
+    private TableColumn<Part, Integer> partIdColumn;
+    @FXML
+    private TableColumn<Part, String> partNameColumn;
+    @FXML
+    private TableColumn<Part, Integer> partInventoryLevelColumn;
+    @FXML
+    private TableColumn<Part, Double> partPriceColumn;
 
     public Controller(ArrayList<Part> parts, ArrayList<Product> products) {
         this.parts = parts;
@@ -56,7 +68,8 @@ public class Controller {
         this.products = products;
     }
 
-    @FXML public void initialize() {
+    @FXML
+    public void initialize() {
         // initialize products table
         // name the columns
         productIdColumn.setCellValueFactory(new PropertyValueFactory<Product, Integer>("id"));
@@ -66,12 +79,13 @@ public class Controller {
         // configure search results
         FilteredList<Product> productSearchResults = new FilteredList<>(this.products_);
         productsTableView.setItems(productSearchResults);
+        productsTableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         // filter search results to query
         EventHandler<ActionEvent> handleProductSearch = actionEvent -> {
             productSearchResults.setPredicate((Product p) -> p.getName().toLowerCase().contains(productsQueryField.getText().toLowerCase()));
         };
-       productsQueryField.setOnAction(handleProductSearch);
-       productsSearchButton.setOnAction(handleProductSearch);
+        productsQueryField.setOnAction(handleProductSearch);
+        productsSearchButton.setOnAction(handleProductSearch);
 
 
         // initialize parts table
@@ -83,55 +97,13 @@ public class Controller {
         // configure search results
         FilteredList<Part> partSearchResults = new FilteredList<>(this.parts_);
         partsTableView.setItems(partSearchResults);
+        partsTableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         // filter search results to query
         EventHandler<ActionEvent> handlePartSearch = actionEvent -> {
             partSearchResults.setPredicate((Part p) -> p.getName().toLowerCase().contains(partsQueryField.getText().toLowerCase()));
         };
         partsQueryField.setOnAction(handlePartSearch);
         partsSearchButton.setOnAction(handlePartSearch);
-
-        // Exit program button
-        exitButton.setOnAction(event -> {
-            System.exit(0);
-        });
-
-        // Show Add Part window on clicking the button
-        addPartButton.setOnAction(evt -> {
-            try {
-                Stage v = new Stage();
-                v.initModality(APPLICATION_MODAL);
-                v.setTitle("Add/Modify Part");
-                FXMLLoader ldr = new FXMLLoader(getClass().getResource("PartScreen.fxml"));
-                ldr.setController(new PartScreen(this.parts_, CreateOrUpdateMode.CREATE));
-                Parent root = ldr.load();
-                v.setScene(new Scene(root));
-                v.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.err.println(e.getMessage());
-                System.exit(1);
-            }
-        });
-
-        modifyPartButton.setOnAction(evt -> {
-            try {
-                Stage v = new Stage();
-                v.initModality(APPLICATION_MODAL);
-                v.setTitle("Modify Part");
-                FXMLLoader ldr = new FXMLLoader(getClass().getResource("PartScreen.fxml"));
-                ldr.setController(new PartScreen(this.parts_, CreateOrUpdateMode.UPDATE, 0));
-                Parent root = ldr.load();
-                v.setScene(new Scene(root));
-                v.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.err.println(e.getMessage());
-                System.exit(1);
-            }
-        });
-
-        addProductButton.setOnAction(evt -> { launchProductWindow(new ProductScreen(this.products_)); });
-        modifyProductButton.setOnAction(evt -> { launchProductWindow(new ProductScreen(this.products_, 0)); });
     }
 
     private void launchProductWindow(ProductScreen screenController) {
@@ -146,8 +118,82 @@ public class Controller {
             s.show();
         } catch (IOException e) {
             e.printStackTrace();
-            System.err.println(e.getMessage());
             System.exit(1);
         }
+    }
+
+    private void launchPartWindow(PartScreen screenController) {
+        try {
+            Stage v = new Stage();
+            v.initModality(APPLICATION_MODAL);
+            v.setTitle("Add/Modify Part");
+            FXMLLoader ldr = new FXMLLoader(getClass().getResource("PartScreen.fxml"));
+            ldr.setController(screenController);
+            Parent root = ldr.load();
+            v.setScene(new Scene(root));
+            v.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    @FXML
+    private void deletePart() {
+        getSelectedPart().ifPresent((Part p) -> {
+            this.parts_.remove(p);
+        });
+    }
+
+    @FXML
+    private void deleteProduct() {
+        getSelectedProduct().ifPresent((Product p) -> {
+            this.products_.remove(p);
+        });
+    }
+
+    @FXML
+    private void modifyProduct() {
+        getSelectedProduct().ifPresent((Product p) -> {
+            int idx = this.products_.indexOf(p);
+            if (idx != -1)
+                launchProductWindow(new ProductScreen(this.products_, idx, this.parts_));
+        });
+    }
+
+    @FXML
+    private void addProduct() {
+        launchProductWindow(new ProductScreen(this.products_, this.parts_));
+    }
+
+    @FXML
+    private void modifyPart() {
+        getSelectedPart().ifPresent((Part p) -> {
+            int idx = this.parts_.indexOf(p);
+            if (idx != -1)
+                launchPartWindow(new PartScreen(this.parts_, idx));
+        });
+    }
+
+    @FXML
+    private void addPart() {
+        launchPartWindow(new PartScreen(this.parts_));
+    }
+
+    @FXML
+    private void exitProgram() {
+        System.exit(1);
+    }
+
+    private Optional<Part> getSelectedPart() {
+        final TableView.TableViewSelectionModel<Part> selectionModel = this.partsTableView.getSelectionModel();
+        final Part selectedPart = selectionModel.getSelectedItem();
+        return Optional.ofNullable(selectedPart);
+    }
+
+    private Optional<Product> getSelectedProduct() {
+        final TableView.TableViewSelectionModel<Product> selectionModel = this.productsTableView.getSelectionModel();
+        final Product selectedProduct = selectionModel.getSelectedItem();
+        return Optional.ofNullable(selectedProduct);
     }
 }

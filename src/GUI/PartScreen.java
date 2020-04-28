@@ -28,14 +28,18 @@ public class PartScreen {
     private ObservableList<Part> allParts;
     private CreateOrUpdateMode mode;
 
-    public PartScreen(ObservableList<Part> allParts, CreateOrUpdateMode mode) {
+    private PartScreen(ObservableList<Part> allParts, CreateOrUpdateMode mode, int index) {
         this.allParts = allParts;
         this.mode = mode;
+        this.index_ = index;
     }
 
-    public PartScreen(ObservableList<Part> allParts, CreateOrUpdateMode mode, int index) {
-        this(allParts, mode);
-        this.index_ = index;
+    public PartScreen(ObservableList<Part> allParts, int index) {
+        this(allParts, CreateOrUpdateMode.UPDATE, index);
+    }
+
+    public PartScreen(ObservableList<Part> allParts) {
+        this(allParts, CreateOrUpdateMode.CREATE, -1);
     }
 
     @FXML public void initialize() {
