@@ -1,11 +1,16 @@
 package GUI;
 
+import javafx.beans.InvalidationListener;
+import javafx.beans.binding.Binding;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.converter.NumberStringConverter;
@@ -18,6 +23,8 @@ import java.util.function.Consumer;
 abstract public class ProductScreen {
     protected final ObservableList<Part> parts;
     protected final ObservableList<Product> products;
+    @FXML
+    private BorderPane container;
     @FXML
     protected Button cancelButton, saveButton, partsSearchButton, addPartButton;
     @FXML
@@ -46,6 +53,8 @@ abstract public class ProductScreen {
 
     protected abstract Product getProductModel();
 
+    protected abstract void setProductModel(final Product p);
+
     @FXML
     protected void initialize() {
         // Tables
@@ -58,11 +67,28 @@ abstract public class ProductScreen {
     }
 
     private void initBindings() {
-        Bindings.bindBidirectional(productNameField.textProperty(), getProductModel().nameProperty());
-        Bindings.bindBidirectional(priceField.textProperty(), getProductModel().priceProperty(), new NumberStringConverter());
-        Bindings.bindBidirectional(invField.textProperty(), getProductModel().stockProperty(), new NumberStringConverter());
-        Bindings.bindBidirectional(minField.textProperty(), getProductModel().minProperty(), new NumberStringConverter());
-        Bindings.bindBidirectional(maxField.textProperty(), getProductModel().maxProperty(), new NumberStringConverter());
+        final Product p = getProductModel();
+        idField.setText(Integer.toString(p.getId()));
+        saveButton.disableProperty().bind(Bindings.isEmpty(productNameField.textProperty()));
+        Bindings.bindBidirectional(productNameField.textProperty(), p.nameProperty());
+        Bindings.bindBidirectional(priceField.textProperty(), p.priceProperty(), new NumberStringConverter());
+        Bindings.bindBidirectional(invField.textProperty(), p.stockProperty(), new NumberStringConverter());
+        Bindings.bindBidirectional(minField.textProperty(), p.minProperty(), new NumberStringConverter());
+        Bindings.bindBidirectional(maxField.textProperty(), p.maxProperty(), new NumberStringConverter());
+    }
+
+    private void deinitBindings() {
+        final Product p = getProductModel();
+        Bindings.unbindBidirectional(productNameField.textProperty(), p.nameProperty());
+        Bindings.unbindBidirectional(priceField.textProperty(), p.priceProperty());
+        Bindings.unbindBidirectional(invField.textProperty(), p.stockProperty());
+        Bindings.unbindBidirectional(minField.textProperty(), p.minProperty());
+        Bindings.unbindBidirectional(maxField.textProperty(), p.maxProperty());
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        deinitBindings();
     }
 
     private void initAssociatedPartsTable() {
@@ -111,12 +137,8 @@ abstract public class ProductScreen {
         // J.  Write code to implement exception controls with custom error messages for one requirement out of each of the following sets (pick one from each):
         //  ensuring that the price of a product cannot be less than the cost of the parts
         final Product p = getProductModel();
-        double sum = 0.0;
-        for (final Part x : p.getAllAssociatedParts()) {
-            sum += x.getPrice();
-        }
-        if (sum > p.getPrice()) {
-            throw new ProductPriceException(String.format("Price of all parts is $%.2f which is more than the price of the product: $%.2f", sum, p.getPrice()));
+        if (!Product.hasSanePrice(p)) {
+            throw new ProductPriceException();
         }
     }
 
@@ -127,10 +149,14 @@ abstract public class ProductScreen {
         Optional<ButtonType> confirmation = Alert.confirm("This will cancel your current operation");
         confirmation.ifPresent(a -> {
             if (a == ButtonType.OK) {
-                Stage s = (Stage) cancelButton.getScene().getWindow();
-                s.close();
+                closeModalImpl();
             }
         });
+    }
+
+    protected void closeModalImpl() {
+        Stage s = (Stage) container.getScene().getWindow();
+        s.close();
     }
 
     @FXML

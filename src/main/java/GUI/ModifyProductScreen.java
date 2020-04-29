@@ -7,12 +7,12 @@ import model.Product;
 
 public class ModifyProductScreen extends ProductScreen {
     private int index = -1;
-    private Product thisProduct;
+    private Product product;
 
     public ModifyProductScreen(ObservableList<Product> products, ObservableList<Part> parts, int index) {
         super(products, parts);
         this.index = index;
-        this.thisProduct = products.get(index);
+        this.product = products.get(index);
     }
 
     @FXML
@@ -21,19 +21,37 @@ public class ModifyProductScreen extends ProductScreen {
         title.setText("Modify Product");
     }
 
+    /**
+     * Validate the temporary Product object, then commit it to underlying store
+     */
     @Override
     @FXML
     public void save() {
-        // dummy function because input is already saved through the data bindings
         try {
+            final Product p = getProductModel();
+            checkProductCount();
             checkProductPrice();
-        } catch (ProductPriceException e) {
+            // sanity check
+            if (p != null && Product.isValid(p)) {
+                setUnderlyingProductModel(p);
+                closeModalImpl();
+            }
+        } catch (ProductPriceException | ProductPartCountException e) {
             Alert.display(e.getMessage());
         }
     }
 
     @Override
     public Product getProductModel() {
-        return thisProduct;
+        return product;
+    }
+
+    @Override
+    protected void setProductModel(final Product product) {
+        this.product = product;
+    }
+
+    private void setUnderlyingProductModel(final Product product) {
+        this.products.set(this.index, product);
     }
 }

@@ -81,11 +81,19 @@ public class Controller {
         productsTableView.setItems(productSearchResults);
         productsTableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         // filter search results to query
-        EventHandler<ActionEvent> handleProductSearch = actionEvent -> {
+        Runnable handleProductSearch = () -> {
             productSearchResults.setPredicate((Product p) -> p.getName().toLowerCase().contains(productsQueryField.getText().toLowerCase()));
         };
-        productsQueryField.setOnAction(handleProductSearch);
-        productsSearchButton.setOnAction(handleProductSearch);
+        productsQueryField.setOnAction(actionEvent -> {
+            handleProductSearch.run();
+        });
+        productsSearchButton.setOnAction(actionEvent -> {
+            handleProductSearch.run();
+        });
+        // run the search as you type
+        productsQueryField.textProperty().addListener((observableValue, s, t1) -> {
+            handleProductSearch.run();
+        });
 
 
         // initialize parts table
@@ -99,11 +107,19 @@ public class Controller {
         partsTableView.setItems(partSearchResults);
         partsTableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         // filter search results to query
-        EventHandler<ActionEvent> handlePartSearch = actionEvent -> {
+        Runnable handlePartSearch = () -> {
             partSearchResults.setPredicate((Part p) -> p.getName().toLowerCase().contains(partsQueryField.getText().toLowerCase()));
         };
-        partsQueryField.setOnAction(handlePartSearch);
-        partsSearchButton.setOnAction(handlePartSearch);
+        partsQueryField.setOnAction(actionEvent -> {
+            handlePartSearch.run();
+        });
+        partsSearchButton.setOnAction(actionEvent -> {
+            handlePartSearch.run();
+        });
+        // run the search as you type
+        partsQueryField.textProperty().addListener((observableValue, s, t1) -> {
+            handlePartSearch.run();
+        });
     }
 
     private void launchProductWindow(ProductScreen screenController) {

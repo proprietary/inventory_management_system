@@ -6,20 +6,30 @@ import model.Part;
 
 public class ModifyPartScreen extends PartScreen {
     private int index;
+    private Part part;
 
     public ModifyPartScreen(ObservableList<Part> allParts, int index) {
         super(allParts);
         this.index = index;
+        this.part = allParts.get(index);
     }
 
     @Override
     public Part getPartModel() {
-        return allParts.get(index);
+        return this.part;
     }
 
     @Override
     protected void setPartModel(Part part) {
+        this.part = part;
+    }
+
+    private void setUnderlyingPartModel(Part part) {
         allParts.set(index, part);
+    }
+
+    private Part getUnderlyingPartModel() {
+        return allParts.get(index);
     }
 
     @FXML
@@ -29,13 +39,21 @@ public class ModifyPartScreen extends PartScreen {
         outsourcedRadioButton.setSelected(isOutsourced());
     }
 
+    /**
+     * Validate the temporary Part object, then commit it to the underlying data model
+     */
     @FXML
     @Override
     protected void save() {
-        // mostly a dummy function because the data binding already saved everything
         try {
+            final Part p = getPartModel();
             checkInventory();
-        } catch (InventoryBoundsException e) {
+            // sanity check
+            if (p != null && Part.isValid(p)) {
+                setUnderlyingPartModel(p);
+                closeModalImpl();
+            }
+        } catch (InventoryBoundsException | ZeroStockException e) {
             Alert.display(e.getMessage());
         }
 

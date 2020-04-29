@@ -9,11 +9,11 @@ public class Product implements IndexedById {
     private static int IdSequence = 0;
     private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
     private int id;
-    private StringProperty nameProperty = new SimpleStringProperty();
-    private DoubleProperty priceProperty = new SimpleDoubleProperty();
-    private IntegerProperty stockProperty = new SimpleIntegerProperty();
-    private IntegerProperty minProperty = new SimpleIntegerProperty();
-    private IntegerProperty maxProperty = new SimpleIntegerProperty();
+    private StringProperty name = new SimpleStringProperty();
+    private DoubleProperty price = new SimpleDoubleProperty();
+    private IntegerProperty stock = new SimpleIntegerProperty();
+    private IntegerProperty min = new SimpleIntegerProperty();
+    private IntegerProperty max = new SimpleIntegerProperty();
 
     public Product(int id, String name, double price, int stock, int min, int max) {
         this.id = id;
@@ -21,11 +21,11 @@ public class Product implements IndexedById {
             // update auto-increment counter to highest value
             IdSequence = id;
         }
-        this.nameProperty.set(name);
-        this.priceProperty.set(price);
-        this.stockProperty.set(stock);
-        this.minProperty.set(min);
-        this.maxProperty.set(max);
+        this.name.set(name);
+        this.price.set(price);
+        this.stock.set(stock);
+        this.min.set(min);
+        this.max.set(max);
     }
 
     public Product(String name, double price, int stock, int min, int max) {
@@ -37,11 +37,11 @@ public class Product implements IndexedById {
     }
 
     public String getName() {
-        return nameProperty.get();
+        return name.get();
     }
 
     public void setName(String name) {
-        nameProperty.set(name);
+        this.name.set(name);
     }
 
     public int getId() {
@@ -53,55 +53,55 @@ public class Product implements IndexedById {
     }
 
     public double getPrice() {
-        return priceProperty.get();
+        return price.get();
     }
 
     public void setPrice(double price) {
-        priceProperty.set(price);
+        this.price.set(price);
     }
 
     public int getStock() {
-        return stockProperty.get();
+        return stock.get();
     }
 
     public void setStock(int stock) {
-        stockProperty.set(stock);
+        this.stock.set(stock);
     }
 
     public int getMin() {
-        return minProperty.get();
+        return min.get();
     }
 
     public void setMin(int min) {
-        minProperty.set(min);
+        this.min.set(min);
     }
 
     public int getMax() {
-        return maxProperty.get();
+        return max.get();
     }
 
     public void setMax(int max) {
-        maxProperty.set(max);
+        this.max.set(max);
     }
 
     public StringProperty nameProperty() {
-        return nameProperty;
+        return name;
     }
 
     public IntegerProperty stockProperty() {
-        return stockProperty;
+        return stock;
     }
 
     public DoubleProperty priceProperty() {
-        return priceProperty;
+        return price;
     }
 
     public IntegerProperty minProperty() {
-        return minProperty;
+        return min;
     }
 
     public IntegerProperty maxProperty() {
-        return maxProperty;
+        return max;
     }
 
     public ObservableList<Part> getAllAssociatedParts() {
@@ -115,5 +115,26 @@ public class Product implements IndexedById {
 
     public boolean deleteAssociatedPart(Part selectedPart) {
         return associatedParts.remove(selectedPart);
+    }
+
+    public static boolean isBlank(final Product p) {
+        return p.getName().isEmpty();
+    }
+
+    /**
+     * Verifies that the associated parts all cost no more than the price of the whole product
+     * @param p Product to check
+     * @return
+     */
+    public static boolean hasSanePrice(final Product p) {
+        double sum = 0.0;
+        for (final Part part : p.getAllAssociatedParts()) {
+            sum += part.getPrice();
+        }
+        return sum < p.getPrice();
+    }
+
+    public static boolean isValid(final Product p) {
+        return !isBlank(p) && hasSanePrice(p);
     }
 }

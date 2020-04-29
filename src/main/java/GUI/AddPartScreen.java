@@ -35,9 +35,12 @@ public class AddPartScreen extends PartScreen {
         final Part p = getPartModel();
         try {
             checkInventory();
-            if (p != null)
+            // sanity check
+            if (p != null && Part.isValid(p)) {
                 allParts.add(p);
-        } catch (InventoryBoundsException e) {
+                closeModalImpl();
+            }
+        } catch (InventoryBoundsException | ZeroStockException e) {
             Alert.display(e.getMessage());
         }
     }

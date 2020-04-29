@@ -6,6 +6,7 @@
 <?import javafx.scene.text.Text?>
 <GridPane xmlns:fx="http://javafx.com/fxml"
           xmlns="http://javafx.com/javafx"
+          fx:id="container"
           prefHeight="400.0" prefWidth="600.0">
     <padding>
         <Insets top="50" right="25" bottom="25" left="25"/>
@@ -52,11 +53,11 @@
 
         <!-- Machine ID -->
         <Label text="Machine ID"/>
-        <TextField fx:id="machineIdField" disable="${inHouseRadioButton.selected}"/>
+        <TextField fx:id="machineIdField" disable="${!inHouseRadioButton.selected}"/>
 
         <!-- Company name -->
         <Label text="Company name"/>
-        <TextField fx:id="companyNameField" disable="${outsourcedRadioButton.selected}"/>
+        <TextField fx:id="companyNameField" disable="${!outsourcedRadioButton.selected}"/>
     </VBox>
 
     <HBox GridPane.columnIndex="0" GridPane.rowIndex="3">

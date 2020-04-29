@@ -4,27 +4,27 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Outsourced extends Part {
-    private StringProperty companyNameProperty = new SimpleStringProperty();
+    private StringProperty companyName = new SimpleStringProperty();
 
     public Outsourced(String name, double price, int stock, int min, int max, String companyName) {
         super(name, price, stock, min, max);
-        this.companyNameProperty.set(companyName);
+        this.companyName.set(companyName);
     }
 
     public Outsourced(int id, String name, double price, int stock, int min, int max, String companyName) {
         super(id, name, price, stock, min, max);
-        this.companyNameProperty.set(companyName);
+        this.companyName.set(companyName);
     }
 
     public String getCompanyName() {
-        return companyNameProperty.get();
+        return companyName.get();
     }
 
     public void setCompanyName(String companyName) {
-        this.companyNameProperty.set(companyName);
+        this.companyName.set(companyName);
     }
 
     public StringProperty companyNameProperty() {
-        return this.companyNameProperty;
+        return this.companyName;
     }
 }

@@ -29,7 +29,10 @@ public class AddProductScreen extends ProductScreen {
             final Product p = getProductModel();
             checkProductCount();
             checkProductPrice();
-            this.products.add(p);
+            if (p != null && Product.isValid(p)) {
+                this.products.add(p);
+                closeModalImpl();
+            }
         } catch (ProductPartCountException | ProductPriceException e) {
             Alert.display(e.getMessage());
         }
@@ -40,5 +43,9 @@ public class AddProductScreen extends ProductScreen {
         return thisProduct;
     }
 
+    @Override
+    public final void setProductModel(final Product p) {
+        this.thisProduct = p;
+    }
 
 }

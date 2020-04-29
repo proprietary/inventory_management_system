@@ -6,11 +6,11 @@ public abstract class Part implements IndexedById {
     /// IdSequence holds the highest auto-incrementing number
     private static int IdSequence = 0;
     private int id;
-    private StringProperty nameProperty = new SimpleStringProperty();
-    private DoubleProperty priceProperty = new SimpleDoubleProperty();
-    private IntegerProperty stockProperty = new SimpleIntegerProperty();
-    private IntegerProperty minProperty = new SimpleIntegerProperty();
-    private IntegerProperty maxProperty = new SimpleIntegerProperty();
+    private StringProperty name = new SimpleStringProperty();
+    private DoubleProperty price = new SimpleDoubleProperty();
+    private IntegerProperty stock = new SimpleIntegerProperty();
+    private IntegerProperty min = new SimpleIntegerProperty();
+    private IntegerProperty max = new SimpleIntegerProperty();
 
     public Part(int id, String name, double price, int stock, int min, int max) {
         // update auto-incremented id to highest value
@@ -18,11 +18,11 @@ public abstract class Part implements IndexedById {
             IdSequence = id;
         }
         this.id = id;
-        this.nameProperty.set(name);
-        this.priceProperty.set(price);
-        this.stockProperty.set(stock);
-        this.minProperty.set(min);
-        this.maxProperty.set(max);
+        this.name.set(name);
+        this.price.set(price);
+        this.stock.set(stock);
+        this.min.set(min);
+        this.max.set(max);
     }
 
     protected Part(String name, double price, int stock, int min, int max) {
@@ -38,62 +38,74 @@ public abstract class Part implements IndexedById {
     }
 
     public String getName() {
-        return nameProperty.get();
+        return name.get();
     }
 
     public void setName(String name) {
-        this.nameProperty.set(name);
+        this.name.set(name);
     }
 
     public double getPrice() {
-        return priceProperty.get();
+        return price.get();
     }
 
     public void setPrice(double price) {
-        this.priceProperty.set(price);
+        this.price.set(price);
     }
 
     public int getStock() {
-        return stockProperty.get();
+        return stock.get();
     }
 
     public void setStock(int stock) {
-        this.stockProperty.set(stock);
+        this.stock.set(stock);
     }
 
     public int getMin() {
-        return minProperty.get();
+        return min.get();
     }
 
     public void setMin(int min) {
-        this.minProperty.set(min);
+        this.min.set(min);
     }
 
     public int getMax() {
-        return maxProperty.get();
+        return max.get();
     }
 
     public void setMax(int max) {
-        this.maxProperty.set(max);
+        this.max.set(max);
     }
 
     public StringProperty nameProperty() {
-        return nameProperty;
+        return name;
     }
 
     public DoubleProperty priceProperty() {
-        return priceProperty;
+        return price;
     }
 
     public IntegerProperty stockProperty() {
-        return stockProperty;
+        return stock;
     }
 
     public IntegerProperty minProperty() {
-        return minProperty;
+        return min;
     }
 
     public IntegerProperty maxProperty() {
-        return maxProperty;
+        return max;
+    }
+
+    public static boolean isBlank(final Part p) {
+        return p.getName().isEmpty();
+    }
+
+    public static boolean hasSaneInventoryValues(final Part p) {
+        return p.getStock() >= p.getMin() && p.getStock() <= p.getMax();
+    }
+
+    public static boolean isValid(final Part p) {
+        return !isBlank(p) && hasSaneInventoryValues(p);
     }
 }

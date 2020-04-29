@@ -4,6 +4,7 @@ import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.converter.NumberStringConverter;
 import model.InHouse;
@@ -38,6 +39,8 @@ public abstract class PartScreen {
     @FXML
     protected Button cancelButton;
     protected ObservableList<Part> allParts;
+    @FXML
+    protected GridPane container;
     private int index_;
     private ToggleGroup productType;
 
@@ -98,6 +101,9 @@ public abstract class PartScreen {
     private void initDataBindings() {
         final Part thisPart = getPartModel();
         // set up data bindings
+        idField.setText(Integer.toString(thisPart.getId()));
+        // grey out the Save button if the part is blank
+        saveButton.disableProperty().bind(Bindings.isEmpty(nameField.textProperty()));
         Bindings.bindBidirectional(this.nameField.textProperty(), thisPart.nameProperty());
         Bindings.bindBidirectional(this.inventoryField.textProperty(), thisPart.stockProperty(), new NumberStringConverter());
         Bindings.bindBidirectional(this.priceField.textProperty(), thisPart.priceProperty(), new NumberStringConverter());
@@ -155,25 +161,31 @@ public abstract class PartScreen {
     @FXML
     protected abstract void save();
 
-    protected void checkInventory() throws InventoryBoundsException {
+    protected void checkInventory() throws InventoryBoundsException, ZeroStockException {
         // J.  Write code to implement exception controls with custom error messages for one requirement out of each of the following sets (pick one from each):
         // - entering an inventory value that exceeds the minimum or maximum value for that part or product
         final Part p = getPartModel();
-        if (p.getStock() > p.getMax() || p.getStock() < p.getMin())
-            throw new InventoryBoundsException("Stock amount must be more than the minimum and less than the maximum");
+        if (p.getStock() == 0)
+            throw new ZeroStockException(p);
+        if (!Part.hasSaneInventoryValues(p))
+            throw new InventoryBoundsException(String.format("Stock amount (%d) must be at least the minimum (%d) and no more than the maximum (%d)", p.getStock(), p.getMin(), p.getMax()));
     }
 
     @FXML
-    private void closeModal() {
+    protected void closeModal() {
         // J.  Write code to implement exception controls with custom error messages for one requirement out of each of the following sets (pick one from each):
         // - including a confirm dialogue for all “Delete” and “Cancel” buttons
         Optional<ButtonType> confirmation = Alert.confirm("This will cancel your current operation.");
         confirmation.ifPresent(a -> {
             if (a == ButtonType.OK) {
-                Stage s = (Stage) cancelButton.getScene().getWindow();
-                s.close();
+                closeModalImpl();
             }
         });
+    }
+
+    protected void closeModalImpl() {
+        Stage s = (Stage) container.getScene().getWindow();
+        s.close();
     }
 
     protected boolean isInHouse() {
