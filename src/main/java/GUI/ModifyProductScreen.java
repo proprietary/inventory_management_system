@@ -29,14 +29,14 @@ public class ModifyProductScreen extends ProductScreen {
     public void save() {
         try {
             final Product p = getProductModel();
-            checkProductCount();
+            checkInventory();
             checkProductPrice();
             // sanity check
             if (p != null && Product.isValid(p)) {
                 setUnderlyingProductModel(p);
                 closeModalImpl();
             }
-        } catch (ProductPriceException | ProductPartCountException e) {
+        } catch (ProductPriceException | ProductPartCountException | ZeroStockException | InventoryBoundsException e) {
             Alert.display(e.getMessage());
         }
     }

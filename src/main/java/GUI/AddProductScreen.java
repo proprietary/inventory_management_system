@@ -27,13 +27,13 @@ public class AddProductScreen extends ProductScreen {
     public final void save() {
         try {
             final Product p = getProductModel();
-            checkProductCount();
+            checkInventory();
             checkProductPrice();
             if (p != null && Product.isValid(p)) {
                 this.products.add(p);
                 closeModalImpl();
             }
-        } catch (ProductPartCountException | ProductPriceException e) {
+        } catch (ProductPriceException | ProductPartCountException | ZeroStockException | InventoryBoundsException e) {
             Alert.display(e.getMessage());
         }
     }

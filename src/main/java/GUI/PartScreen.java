@@ -166,7 +166,7 @@ public abstract class PartScreen {
         // - entering an inventory value that exceeds the minimum or maximum value for that part or product
         final Part p = getPartModel();
         if (p.getStock() == 0)
-            throw new ZeroStockException(p);
+            throw new ZeroStockException();
         if (!Part.hasSaneInventoryValues(p))
             throw new InventoryBoundsException(String.format("Stock amount (%d) must be at least the minimum (%d) and no more than the maximum (%d)", p.getStock(), p.getMin(), p.getMax()));
     }

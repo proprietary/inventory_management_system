@@ -124,7 +124,7 @@ public class Product implements IndexedById {
     /**
      * Verifies that the associated parts all cost no more than the price of the whole product
      * @param p Product to check
-     * @return
+     * @return whether the price of the cumulative parts is less than or equal to the price of the whole product
      */
     public static boolean hasSanePrice(final Product p) {
         double sum = 0.0;
@@ -132,6 +132,10 @@ public class Product implements IndexedById {
             sum += part.getPrice();
         }
         return sum < p.getPrice();
+    }
+
+    public static boolean hasSaneInventoryValues(final Product p) {
+        return p.getStock() >= p.getMin() && p.getStock() <= p.getMax();
     }
 
     public static boolean isValid(final Product p) {

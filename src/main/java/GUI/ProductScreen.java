@@ -124,12 +124,18 @@ abstract public class ProductScreen {
 
     protected abstract void save();
 
-    protected void checkProductCount() throws ProductPartCountException {
+    protected void checkInventory() throws ProductPartCountException, ZeroStockException, InventoryBoundsException {
         // J.  Write code to implement exception controls with custom error messages for one requirement out of each of the following sets (pick one from each):
         // - ensuring that a product must always have at least one part
         final Product p = getProductModel();
+        if (p.getStock() == 0) {
+            throw new ZeroStockException();
+        }
         if (p.getAllAssociatedParts().size() < 1) {
             throw new ProductPartCountException("There must be at least one part associated with the product");
+        }
+        if (!Product.hasSaneInventoryValues(p)) {
+            throw new InventoryBoundsException(String.format("Stock amount (%d) must be at least the minimum (%d) and no more than the maximum (%d)", p.getStock(), p.getMin(), p.getMax()));
         }
     }
 
