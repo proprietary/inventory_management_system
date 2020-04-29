@@ -14,6 +14,18 @@ import model.Product;
 import java.util.ArrayList;
 
 public class Main extends Application {
+    private static ArrayList<Part> testParts = new ArrayList<Part>() {{
+        add(new InHouse("in house part #1", 10.0, 20, 10, 100, 0));
+        add(new InHouse("in house part #2", 10.0, 20, 10, 100, 0));
+        add(new Outsourced("outsourced part #1", 10.0, 20, 10, 100, "company #1"));
+        add(new InHouse("in house part #3", 10.0, 20, 10, 100, 0));
+    }};
+
+    private static ArrayList<Product> testProducts = new ArrayList<Product>() {{
+        add(new Product(1, "Product #1", 10.0, 20, 10, 100));
+        add(new Product(2, "Product #2", 10.0, 20, 10, 100));
+        add(new Product(3, "Product #3", 10.0, 20, 10, 100));
+    }};
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -21,7 +33,7 @@ public class Main extends Application {
         ldr.setController(new Controller(Main.generateTestParts(), Main.generateTestProducts()));
         Parent root = ldr.load();
         primaryStage.setTitle("");
-        primaryStage.setScene(new Scene(root, 1000, 600));
+        primaryStage.setScene(new Scene(root, 1500, 800));
         primaryStage.show();
     }
 
@@ -30,19 +42,10 @@ public class Main extends Application {
     }
 
     public static ArrayList<Part> generateTestParts() {
-        ArrayList<Part> parts = new ArrayList<>();
-        parts.add(new InHouse("in house part #1", 10.0, 20, 10, 100, 0));
-        parts.add(new InHouse("in house part #2", 10.0, 20, 10, 100, 0));
-        parts.add(new Outsourced("outsourced part #1", 10.0, 20, 10, 100, "company #1"));
-        parts.add(new InHouse("in house part #3", 10.0, 20, 10, 100, 0));
-        return parts;
+        return testParts;
     }
 
     public static ArrayList<Product> generateTestProducts() {
-        return new ArrayList<Product>() {{
-            add(new Product(1, "Product #1", 10.0, 20, 10, 100));
-            add(new Product(2, "Product #2", 10.0, 20, 10, 100));
-            add(new Product(3, "Product #3", 10.0, 20, 10, 100));
-        }};
+        return testProducts;
     }
 }

@@ -26,7 +26,13 @@ public class AddProductScreen extends ProductScreen {
     @Override
     @FXML
     public final void save() {
-        this.products.add(this.getProductModel());
+        try {
+            final Product p = getProductModel();
+            checkProductCount();
+            this.products.add(p);
+        } catch (ProductPartCountException e) {
+            Alert.display(e.getMessage());
+        }
     }
 
     @Override

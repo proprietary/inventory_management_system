@@ -29,7 +29,12 @@ public class AddPartScreen extends PartScreen {
 
     @FXML @Override protected void save() {
         final Part p = getPartModel();
-        if (p != null)
-            allParts.add(p);
+        try {
+            checkInventory();
+            if (p != null)
+                allParts.add(p);
+        } catch (InventoryBoundsException e) {
+            Alert.display(e.getMessage());
+        }
     }
 }

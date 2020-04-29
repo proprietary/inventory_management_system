@@ -141,15 +141,29 @@ public class Controller {
 
     @FXML
     private void deletePart() {
-        getSelectedPart().ifPresent((Part p) -> {
-            this.parts_.remove(p);
+        // J.  Write code to implement exception controls with custom error messages for one requirement out of each of the following sets (pick one from each):
+        // - including a confirm dialogue for all “Delete” and “Cancel” buttons
+        Optional<ButtonType> confirmation = Alert.confirm("This will delete the selected part.");
+        confirmation.ifPresent(a -> {
+            if (a == ButtonType.OK) {
+                getSelectedPart().ifPresent((Part p) -> {
+                    this.parts_.remove(p);
+                });
+            }
         });
     }
 
     @FXML
     private void deleteProduct() {
-        getSelectedProduct().ifPresent((Product p) -> {
-            this.products_.remove(p);
+        // J.  Write code to implement exception controls with custom error messages for one requirement out of each of the following sets (pick one from each):
+        // - including a confirm dialogue for all “Delete” and “Cancel” buttons
+        Optional<ButtonType> confirmation = Alert.confirm("This will delete the selected product");
+        confirmation.ifPresent(a -> {
+            if (a == ButtonType.OK) {
+                getSelectedProduct().ifPresent((Product p) -> {
+                    this.products_.remove(p);
+                });
+            }
         });
     }
 

@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.converter.NumberStringConverter;
 import model.InHouse;
+import model.Inventory;
 import model.Outsourced;
 import model.Part;
 
@@ -68,6 +69,8 @@ public abstract class PartScreen {
             setPartModel(new Outsourced(oldPart.getId(), oldPart.getName(), oldPart.getPrice(), oldPart.getStock(), oldPart.getMin(), oldPart.getMax(), ""));
             togglePartType(Outsourced.class);
         });
+
+
     }
 
     /**
@@ -139,9 +142,24 @@ public abstract class PartScreen {
 
     @FXML protected abstract void save();
 
+    protected void checkInventory() throws InventoryBoundsException {
+        // J.  Write code to implement exception controls with custom error messages for one requirement out of each of the following sets (pick one from each):
+        // - entering an inventory value that exceeds the minimum or maximum value for that part or product
+        final Part p = getPartModel();
+        if (p.getStock() > p.getMax() || p.getStock() < p.getMin())
+            throw new InventoryBoundsException("Stock amount must be more than the minimum and less than the maximum");
+    }
+
     @FXML private void closeModal() {
-        Stage s = (Stage) cancelButton.getScene().getWindow();
-        s.close();
+        // J.  Write code to implement exception controls with custom error messages for one requirement out of each of the following sets (pick one from each):
+        // - including a confirm dialogue for all “Delete” and “Cancel” buttons
+        Optional<ButtonType> confirmation = Alert.confirm("This will cancel your current operation.");
+        confirmation.ifPresent(a -> {
+            if (a == ButtonType.OK) {
+                Stage s = (Stage) cancelButton.getScene().getWindow();
+                s.close();
+            }
+        });
     }
 
     protected boolean isInHouse() {

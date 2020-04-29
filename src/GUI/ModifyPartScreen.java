@@ -32,6 +32,12 @@ public class ModifyPartScreen extends PartScreen {
     }
 
     @FXML @Override protected void save() {
-        // dummy function because the data binding already saved everything
+        // mostly a dummy function because the data binding already saved everything
+        try {
+            checkInventory();
+        } catch (InventoryBoundsException e) {
+            Alert.display(e.getMessage());
+        }
+
     }
 }

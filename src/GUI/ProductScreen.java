@@ -99,9 +99,25 @@ abstract public class ProductScreen {
 
     protected abstract void save();
 
+    protected void checkProductCount() throws ProductPartCountException {
+        // J.  Write code to implement exception controls with custom error messages for one requirement out of each of the following sets (pick one from each):
+        // - ensuring that a product must always have at least one part
+        final Product p = getProductModel();
+        if (p.getAllAssociatedParts().size() < 1) {
+            throw new ProductPartCountException("There must be at least one part associated with the product");
+        }
+    }
+
     @FXML private void closeModal() {
-        Stage s = (Stage) cancelButton.getScene().getWindow();
-        s.close();
+        // J.  Write code to implement exception controls with custom error messages for one requirement out of each of the following sets (pick one from each):
+        // - including a confirm dialogue for all “Delete” and “Cancel” buttons
+        Optional<ButtonType> confirmation = Alert.confirm("This will cancel your current operation");
+        confirmation.ifPresent(a -> {
+            if (a == ButtonType.OK) {
+                Stage s = (Stage) cancelButton.getScene().getWindow();
+                s.close();
+            }
+        });
     }
 
     @FXML private void addAssociatedPart() {
@@ -112,8 +128,15 @@ abstract public class ProductScreen {
     }
 
     @FXML private void deleteAssociatedPart() {
-        getSelectedAssociatedPart().ifPresent((final Part p) -> {
-            getProductModel().deleteAssociatedPart(p);
+        // J.  Write code to implement exception controls with custom error messages for one requirement out of each of the following sets (pick one from each):
+        // - including a confirm dialogue for all “Delete” and “Cancel” buttons
+        final Optional<ButtonType> confirmation = Alert.confirm("This will remove the selected part from being associated with this product.");
+        confirmation.ifPresent(a -> {
+            if (a == ButtonType.OK) {
+                getSelectedAssociatedPart().ifPresent((final Part p) -> {
+                    getProductModel().deleteAssociatedPart(p);
+                });
+            }
         });
     }
 
