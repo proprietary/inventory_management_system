@@ -1,6 +1,7 @@
 package model;
 
-import javafx.beans.property.*;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 public class InHouse extends Part {
     private IntegerProperty machineIdProperty = new SimpleIntegerProperty();
@@ -15,12 +16,12 @@ public class InHouse extends Part {
         this.machineIdProperty.set(machineId);
     }
 
-    public void setMachineId(int machineId) {
-        this.machineIdProperty.set(machineId);
-    }
-
     public int getMachineId() {
         return this.machineIdProperty.get();
+    }
+
+    public void setMachineId(int machineId) {
+        this.machineIdProperty.set(machineId);
     }
 
     public IntegerProperty machineIdProperty() {

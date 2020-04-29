@@ -36,10 +36,6 @@ public class Product implements IndexedById {
         return ++IdSequence;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getName() {
         return nameProperty.get();
     }
@@ -48,40 +44,44 @@ public class Product implements IndexedById {
         nameProperty.set(name);
     }
 
-    public void setStock(int stock) {
-        stockProperty.set(stock);
-    }
-
-    public void setMin(int min) {
-        minProperty.set(min);
-    }
-
-    public void setMax(int max) {
-        maxProperty.set(max);
-    }
-
-    public void setPrice(double price) {
-        priceProperty.set(price);
-    }
-
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public double getPrice() {
         return priceProperty.get();
     }
 
+    public void setPrice(double price) {
+        priceProperty.set(price);
+    }
+
     public int getStock() {
         return stockProperty.get();
+    }
+
+    public void setStock(int stock) {
+        stockProperty.set(stock);
     }
 
     public int getMin() {
         return minProperty.get();
     }
 
+    public void setMin(int min) {
+        minProperty.set(min);
+    }
+
     public int getMax() {
         return maxProperty.get();
+    }
+
+    public void setMax(int max) {
+        maxProperty.set(max);
     }
 
     public StringProperty nameProperty() {

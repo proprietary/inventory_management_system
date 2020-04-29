@@ -1,7 +1,6 @@
 package GUI;
 
 import javafx.application.Application;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -27,16 +26,6 @@ public class Main extends Application {
         add(new Product(3, "Product #3", 10.0, 20, 10, 100));
     }};
 
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-        FXMLLoader ldr = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
-        ldr.setController(new Controller(Main.generateTestParts(), Main.generateTestProducts()));
-        Parent root = ldr.load();
-        primaryStage.setTitle("");
-        primaryStage.setScene(new Scene(root, 1500, 800));
-        primaryStage.show();
-    }
-
     public static void main(String[] args) {
         launch(args);
     }
@@ -47,5 +36,15 @@ public class Main extends Application {
 
     public static ArrayList<Product> generateTestProducts() {
         return testProducts;
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        FXMLLoader ldr = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
+        ldr.setController(new Controller(Main.generateTestParts(), Main.generateTestProducts()));
+        Parent root = ldr.load();
+        primaryStage.setTitle("");
+        primaryStage.setScene(new Scene(root, 1500, 800));
+        primaryStage.show();
     }
 }

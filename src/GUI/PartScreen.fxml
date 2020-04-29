@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.text.Text?>
-
-<GridPane xmlns="http://javafx.com/javafx"
-          xmlns:fx="http://javafx.com/fxml"
+<GridPane xmlns:fx="http://javafx.com/fxml"
+          xmlns="http://javafx.com/javafx"
           prefHeight="400.0" prefWidth="600.0">
     <padding>
         <Insets top="50" right="25" bottom="25" left="25"/>
@@ -19,7 +15,7 @@
     <VBox GridPane.columnIndex="0" GridPane.rowIndex="1">
         <spacing>5</spacing>
         <padding>
-            <Insets top="10" bottom="10" />
+            <Insets top="10" bottom="10"/>
         </padding>
         <Label text="In House"/>
         <RadioButton fx:id="inHouseRadioButton" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
@@ -32,43 +28,43 @@
     <VBox alignment="TOP_LEFT" GridPane.columnIndex="0" GridPane.rowIndex="2">
         <!-- ID -->
         <Label text="ID"/>
-        <TextField fx:id="idField" disable="true" />
+        <TextField fx:id="idField" disable="true"/>
 
         <!-- Name -->
-        <Label text="Name" />
-        <TextField fx:id="nameField" />
+        <Label text="Name"/>
+        <TextField fx:id="nameField"/>
 
         <!-- Current stock -->
-        <Label text="Inventory" />
-        <TextField fx:id="inventoryField" />
+        <Label text="Inventory"/>
+        <TextField fx:id="inventoryField"/>
 
         <!-- Price -->
-        <Label text="Price" />
-        <TextField fx:id="priceField" />
+        <Label text="Price"/>
+        <TextField fx:id="priceField"/>
 
         <!-- Minimum stock -->
-        <Label text="Min" />
-        <TextField fx:id="minField" />
+        <Label text="Min"/>
+        <TextField fx:id="minField"/>
 
         <!-- Maximum stock -->
-        <Label text="Max" />
-        <TextField fx:id="maxField" />
+        <Label text="Max"/>
+        <TextField fx:id="maxField"/>
 
         <!-- Machine ID -->
         <Label text="Machine ID"/>
-        <TextField fx:id="machineIdField" disable="${inHouseRadioButton.isSelected()}" />
+        <TextField fx:id="machineIdField" disable="${inHouseRadioButton.isSelected()}"/>
 
         <!-- Company name -->
-        <Label text="Company name" />
-        <TextField fx:id="companyNameField" disable="${outsourcedRadioButton.isSelected()}" />
+        <Label text="Company name"/>
+        <TextField fx:id="companyNameField" disable="${outsourcedRadioButton.isSelected()}"/>
     </VBox>
 
     <HBox GridPane.columnIndex="0" GridPane.rowIndex="3">
         <padding>
-            <Insets top="30" />
+            <Insets top="30"/>
         </padding>
-        <Button fx:id="saveButton" text="Save" onAction="#save" />
-        <Button fx:id="cancelButton" text="Cancel" onAction="#closeModal" />
+        <Button fx:id="saveButton" text="Save" onAction="#save"/>
+        <Button fx:id="cancelButton" text="Cancel" onAction="#closeModal"/>
     </HBox>
 
 </GridPane>

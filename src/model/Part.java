@@ -3,9 +3,9 @@ package model;
 import javafx.beans.property.*;
 
 public abstract class Part implements IndexedById {
-    private int id;
     /// IdSequence holds the highest auto-incrementing number
     private static int IdSequence = 0;
+    private int id;
     private StringProperty nameProperty = new SimpleStringProperty();
     private DoubleProperty priceProperty = new SimpleDoubleProperty();
     private IntegerProperty stockProperty = new SimpleIntegerProperty();
@@ -33,26 +33,6 @@ public abstract class Part implements IndexedById {
         return ++IdSequence;
     }
 
-    public void setName(String name) {
-        this.nameProperty.set(name);
-    }
-
-    public void setPrice(double price) {
-        this.priceProperty.set(price);
-    }
-
-    public void setStock(int stock) {
-        this.stockProperty.set(stock);
-    }
-
-    public void setMin(int min) {
-        this.minProperty.set(min);
-    }
-
-    public void setMax(int max) {
-        this.maxProperty.set(max);
-    }
-
     public int getId() {
         return id;
     }
@@ -61,20 +41,40 @@ public abstract class Part implements IndexedById {
         return nameProperty.get();
     }
 
+    public void setName(String name) {
+        this.nameProperty.set(name);
+    }
+
     public double getPrice() {
         return priceProperty.get();
+    }
+
+    public void setPrice(double price) {
+        this.priceProperty.set(price);
     }
 
     public int getStock() {
         return stockProperty.get();
     }
 
+    public void setStock(int stock) {
+        this.stockProperty.set(stock);
+    }
+
     public int getMin() {
         return minProperty.get();
     }
 
+    public void setMin(int min) {
+        this.minProperty.set(min);
+    }
+
     public int getMax() {
         return maxProperty.get();
+    }
+
+    public void setMax(int max) {
+        this.maxProperty.set(max);
     }
 
     public StringProperty nameProperty() {

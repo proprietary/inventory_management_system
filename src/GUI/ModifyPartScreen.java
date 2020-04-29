@@ -12,21 +12,26 @@ public class ModifyPartScreen extends PartScreen {
         this.index = index;
     }
 
-    @Override public Part getPartModel() {
+    @Override
+    public Part getPartModel() {
         return allParts.get(index);
     }
 
-    @Override protected void setPartModel(Part part) {
+    @Override
+    protected void setPartModel(Part part) {
         allParts.set(index, part);
     }
 
-    @FXML public void initialize() {
+    @FXML
+    public void initialize() {
         super.initialize();
         inHouseRadioButton.setSelected(isInHouse());
         outsourcedRadioButton.setSelected(isOutsourced());
     }
 
-    @FXML @Override protected void save() {
+    @FXML
+    @Override
+    protected void save() {
         // mostly a dummy function because the data binding already saved everything
         try {
             checkInventory();

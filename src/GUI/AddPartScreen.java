@@ -12,7 +12,8 @@ public class AddPartScreen extends PartScreen {
         this.part = newPart;
     }
 
-    @FXML public void initialize() {
+    @FXML
+    public void initialize() {
         super.initialize();
         // select In House as the default mode
         inHouseRadioButton.setSelected(true);
@@ -23,11 +24,14 @@ public class AddPartScreen extends PartScreen {
         return part;
     }
 
-    @Override protected void setPartModel(Part part) {
+    @Override
+    protected void setPartModel(Part part) {
         this.part = part;
     }
 
-    @FXML @Override protected void save() {
+    @FXML
+    @Override
+    protected void save() {
         final Part p = getPartModel();
         try {
             checkInventory();

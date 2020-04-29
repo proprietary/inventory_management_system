@@ -1,6 +1,7 @@
 package model;
 
-import javafx.beans.property.*;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class Outsourced extends Part {
     private StringProperty companyNameProperty = new SimpleStringProperty();
@@ -15,12 +16,12 @@ public class Outsourced extends Part {
         this.companyNameProperty.set(companyName);
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyNameProperty.set(companyName);
-    }
-
     public String getCompanyName() {
         return companyNameProperty.get();
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyNameProperty.set(companyName);
     }
 
     public StringProperty companyNameProperty() {

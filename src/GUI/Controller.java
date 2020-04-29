@@ -23,11 +23,12 @@ import java.util.Optional;
 import static javafx.stage.Modality.APPLICATION_MODAL;
 
 public class Controller {
-    @FXML
-    private Button addPartButton, modifyPartButton, addProductButton, modifyProductButton, deletePartButton, deleteProductButton;
-
     // products table
     private final ArrayList<Product> products;
+    // parts table
+    private final ArrayList<Part> parts;
+    @FXML
+    private Button addPartButton, modifyPartButton, addProductButton, modifyProductButton, deletePartButton, deleteProductButton;
     private ObservableList<Product> products_;
     @FXML
     private TableView<Product> productsTableView;
@@ -43,9 +44,6 @@ public class Controller {
     private TableColumn<Product, Integer> productInventoryLevelColumn;
     @FXML
     private TableColumn<Product, Double> productPriceColumn;
-
-    // parts table
-    private final ArrayList<Part> parts;
     private ObservableList<Part> parts_;
     @FXML
     private TableView<Part> partsTableView;
@@ -192,7 +190,8 @@ public class Controller {
 
     @FXML
     private void addPart() {
-        launchPartWindow(new AddPartScreen(this.parts_, new InHouse("", 0.0, 0, 0,0, 0)));;
+        launchPartWindow(new AddPartScreen(this.parts_, new InHouse("", 0.0, 0, 0, 0, 0)));
+        ;
     }
 
     @FXML

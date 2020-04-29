@@ -13,21 +13,33 @@ import model.Part;
 import java.util.Optional;
 
 public abstract class PartScreen {
+    @FXML
+    protected RadioButton inHouseRadioButton;
+    @FXML
+    protected RadioButton outsourcedRadioButton;
+    @FXML
+    protected TextField idField;
+    @FXML
+    protected TextField nameField;
+    @FXML
+    protected TextField inventoryField;
+    @FXML
+    protected TextField priceField;
+    @FXML
+    protected TextField minField;
+    @FXML
+    protected TextField maxField;
+    @FXML
+    protected TextField machineIdField;
+    @FXML
+    protected TextField companyNameField;
+    @FXML
+    protected Button saveButton;
+    @FXML
+    protected Button cancelButton;
+    protected ObservableList<Part> allParts;
     private int index_;
     private ToggleGroup productType;
-    @FXML protected RadioButton inHouseRadioButton;
-    @FXML protected RadioButton outsourcedRadioButton;
-    @FXML protected TextField idField;
-    @FXML protected TextField nameField;
-    @FXML protected TextField inventoryField;
-    @FXML protected TextField priceField;
-    @FXML protected TextField minField;
-    @FXML protected TextField maxField;
-    @FXML protected TextField machineIdField;
-    @FXML protected TextField companyNameField;
-    @FXML protected Button saveButton;
-    @FXML protected Button cancelButton;
-    protected ObservableList<Part> allParts;
 
     protected PartScreen(ObservableList<Part> allParts) {
         this.allParts = allParts;
@@ -37,7 +49,8 @@ public abstract class PartScreen {
 
     protected abstract void setPartModel(Part part);
 
-    @FXML public void initialize() {
+    @FXML
+    public void initialize() {
         final Part thisPart = getPartModel();
 
         initInputMasks();
@@ -139,7 +152,8 @@ public abstract class PartScreen {
             Bindings.bindBidirectional(companyNameField.textProperty(), ((Outsourced) p).companyNameProperty());
     }
 
-    @FXML protected abstract void save();
+    @FXML
+    protected abstract void save();
 
     protected void checkInventory() throws InventoryBoundsException {
         // J.  Write code to implement exception controls with custom error messages for one requirement out of each of the following sets (pick one from each):
@@ -149,7 +163,8 @@ public abstract class PartScreen {
             throw new InventoryBoundsException("Stock amount must be more than the minimum and less than the maximum");
     }
 
-    @FXML private void closeModal() {
+    @FXML
+    private void closeModal() {
         // J.  Write code to implement exception controls with custom error messages for one requirement out of each of the following sets (pick one from each):
         // - including a confirm dialogue for all “Delete” and “Cancel” buttons
         Optional<ButtonType> confirmation = Alert.confirm("This will cancel your current operation.");

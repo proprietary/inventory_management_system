@@ -1,45 +1,43 @@
 package GUI;
 
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.Property;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableIntegerValue;
-import javafx.beans.value.ObservableNumberValue;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
-
-import java.text.Normalizer;
-import java.util.*;
-import java.util.concurrent.Callable;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.UnaryOperator;
-
 import javafx.stage.Stage;
 import javafx.util.converter.NumberStringConverter;
 import model.Part;
 import model.Product;
 
+import java.util.Optional;
+import java.util.function.Consumer;
+
 abstract public class ProductScreen {
-    @FXML protected Button cancelButton, saveButton, partsSearchButton, addPartButton;
-    @FXML protected Text title;
-    @FXML protected TextField idField;
-    @FXML protected TextField productNameField, invField, priceField, minField, maxField;
-    @FXML protected TableView<Part> associatedPartsTableView;
-    @FXML protected TableView<Part> partsSearchTableView;
-    @FXML protected TableColumn<Part, Integer> idColumn, inventoryColumn, partsSearchIdColumn, partsSearchInventoryColumn;
-    @FXML protected TableColumn<Part, String> nameColumn, partsSearchNameColumn;
-    @FXML protected TableColumn<Part, Double> priceColumn, partsSearchPriceColumn;
-    @FXML protected TextField partsSearchQueryField;
     protected final ObservableList<Part> parts;
     protected final ObservableList<Product> products;
+    @FXML
+    protected Button cancelButton, saveButton, partsSearchButton, addPartButton;
+    @FXML
+    protected Text title;
+    @FXML
+    protected TextField idField;
+    @FXML
+    protected TextField productNameField, invField, priceField, minField, maxField;
+    @FXML
+    protected TableView<Part> associatedPartsTableView;
+    @FXML
+    protected TableView<Part> partsSearchTableView;
+    @FXML
+    protected TableColumn<Part, Integer> idColumn, inventoryColumn, partsSearchIdColumn, partsSearchInventoryColumn;
+    @FXML
+    protected TableColumn<Part, String> nameColumn, partsSearchNameColumn;
+    @FXML
+    protected TableColumn<Part, Double> priceColumn, partsSearchPriceColumn;
+    @FXML
+    protected TextField partsSearchQueryField;
 
     protected ProductScreen(ObservableList<Product> products, ObservableList<Part> parts) {
         this.products = products;
@@ -48,7 +46,8 @@ abstract public class ProductScreen {
 
     protected abstract Product getProductModel();
 
-    @FXML protected void initialize() {
+    @FXML
+    protected void initialize() {
         // Tables
         initPartSearchTable();
         initAssociatedPartsTable();
@@ -121,7 +120,8 @@ abstract public class ProductScreen {
         }
     }
 
-    @FXML private void closeModal() {
+    @FXML
+    private void closeModal() {
         // J.  Write code to implement exception controls with custom error messages for one requirement out of each of the following sets (pick one from each):
         // - including a confirm dialogue for all “Delete” and “Cancel” buttons
         Optional<ButtonType> confirmation = Alert.confirm("This will cancel your current operation");
@@ -133,14 +133,16 @@ abstract public class ProductScreen {
         });
     }
 
-    @FXML private void addAssociatedPart() {
+    @FXML
+    private void addAssociatedPart() {
         final Part selectedPart = partsSearchTableView.getSelectionModel().getSelectedItem();
         final Product thisProduct = this.getProductModel();
         if (selectedPart != null && thisProduct != null)
             thisProduct.addAssociatedPart(selectedPart);
     }
 
-    @FXML private void deleteAssociatedPart() {
+    @FXML
+    private void deleteAssociatedPart() {
         // J.  Write code to implement exception controls with custom error messages for one requirement out of each of the following sets (pick one from each):
         // - including a confirm dialogue for all “Delete” and “Cancel” buttons
         final Optional<ButtonType> confirmation = Alert.confirm("This will remove the selected part from being associated with this product.");

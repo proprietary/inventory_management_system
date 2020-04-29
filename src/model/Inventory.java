@@ -8,14 +8,6 @@ public class Inventory {
     private ObservableList<Part> allParts;
     private ObservableList<Product> allProducts;
 
-    public void addPart(Part newPart) {
-        allParts.add(newPart);
-    }
-
-    public void addProduct(Product newProduct) {
-        allProducts.add(newProduct);
-    }
-
     private static Optional<IndexedById> lookup(Iterable<? extends IndexedById> objects, int id) {
         for (final IndexedById x : objects) {
             if (x.getId() == id) {
@@ -23,6 +15,14 @@ public class Inventory {
             }
         }
         return Optional.empty();
+    }
+
+    public void addPart(Part newPart) {
+        allParts.add(newPart);
+    }
+
+    public void addProduct(Product newProduct) {
+        allProducts.add(newProduct);
     }
 
     public Part lookupPart(int partId) {
@@ -52,6 +52,7 @@ public class Inventory {
     public ObservableList<Part> getAllParts() {
         return allParts;
     }
+
     public ObservableList<Product> getAllProducts() {
         return allProducts;
     }

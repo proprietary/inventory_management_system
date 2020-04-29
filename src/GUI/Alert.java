@@ -1,6 +1,6 @@
 package GUI;
 
-import javafx.scene.control.*;
+import javafx.scene.control.ButtonType;
 
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -12,7 +12,8 @@ public class Alert {
     }
 
     public static void display(String message) {
-        Alert.display(message, b -> {});
+        Alert.display(message, b -> {
+        });
     }
 
     public static Optional<ButtonType> confirm(String message) {

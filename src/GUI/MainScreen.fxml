@@ -1,60 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<?import javafx.scene.text.Text?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" alignment="center" hgap="10" vgap="10"
+          xmlns="http://javafx.com/javafx/10.0.2-internal">
     <padding>
-        <Insets bottom="25" left="25" right="25" top="25" />
+        <Insets bottom="25" left="25" right="25" top="25"/>
     </padding>
     <HBox GridPane.columnIndex="0" GridPane.rowIndex="0">
-        <Text text="Inventory Management System" />
+        <Text text="Inventory Management System"/>
     </HBox>
-    <GridPane alignment="TOP_LEFT" prefWidth="500" GridPane.columnIndex="0" GridPane.rowIndex="1" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+    <GridPane xmlns:fx="http://javafx.com/fxml/1" alignment="TOP_LEFT" prefWidth="500" GridPane.columnIndex="0" GridPane.rowIndex="1" hgap="10"
+              vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal">
         <padding>
             <Insets bottom="10" left="10" right="10" top="25"/>
         </padding>
-        <Text text="Parts" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2" />
-        <TextField fx:id="partsQueryField" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-        <Button fx:id="partsSearchButton" text="Search" GridPane.columnIndex="3" GridPane.rowIndex="0" />
-        <TableView GridPane.hgrow="ALWAYS" minWidth="500" GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.rowIndex="1" fx:id="partsTableView">
+        <Text text="Parts" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+        <TextField fx:id="partsQueryField" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+        <Button fx:id="partsSearchButton" text="Search" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+        <TableView GridPane.hgrow="ALWAYS" minWidth="500" GridPane.columnIndex="0" GridPane.columnSpan="4"
+                   GridPane.rowIndex="1" fx:id="partsTableView">
             <placeholder>
                 <Label text="No rows to display"/>
             </placeholder>
             <columns>
                 <TableColumn text="ID" fx:id="partIdColumn"/>
-                <TableColumn text="Name" fx:id="partNameColumn" />
+                <TableColumn text="Name" fx:id="partNameColumn"/>
                 <TableColumn text="Inventory Level" fx:id="partInventoryLevelColumn"/>
                 <TableColumn text="Price/Cost per Unit" fx:id="partPriceColumn"/>
             </columns>
         </TableView>
-        <Button fx:id="addPartButton" text="Add" onAction="#addPart" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-        <Button fx:id="modifyPartButton" text="Modify" onAction="#modifyPart" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-        <Button fx:id="deletePartButton" text="Delete" onAction="#deletePart" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+        <Button fx:id="addPartButton" text="Add" onAction="#addPart" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <Button fx:id="modifyPartButton" text="Modify" onAction="#modifyPart" GridPane.columnIndex="1"
+                GridPane.rowIndex="2"/>
+        <Button fx:id="deletePartButton" text="Delete" onAction="#deletePart" GridPane.columnIndex="2"
+                GridPane.rowIndex="2"/>
     </GridPane>
-    <GridPane alignment="TOP_LEFT" GridPane.columnIndex="2" GridPane.rowIndex="1" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+    <GridPane xmlns:fx="http://javafx.com/fxml/1" alignment="TOP_LEFT" GridPane.columnIndex="2" GridPane.rowIndex="1" hgap="10"
+              vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal">
         <padding>
             <Insets bottom="10" left="10" right="10" top="25"/>
         </padding>
-        <Text text="Products" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2" />
-        <TextField fx:id="productsQueryField" GridPane.columnIndex="2" GridPane.rowIndex="0" />
-        <Button fx:id="productsSearchButton" text="Search" GridPane.columnIndex="3" GridPane.rowIndex="0" />
-        <TableView GridPane.hgrow="ALWAYS" minWidth="500" GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.rowIndex="1" fx:id="productsTableView">
+        <Text text="Products" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+        <TextField fx:id="productsQueryField" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+        <Button fx:id="productsSearchButton" text="Search" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+        <TableView GridPane.hgrow="ALWAYS" minWidth="500" GridPane.columnIndex="0" GridPane.columnSpan="4"
+                   GridPane.rowIndex="1" fx:id="productsTableView">
             <placeholder>
                 <Label text="No rows to display"/>
             </placeholder>
             <columns>
                 <TableColumn text="ID" fx:id="productIdColumn"/>
-                <TableColumn text="Name" fx:id="productNameColumn" />
+                <TableColumn text="Name" fx:id="productNameColumn"/>
                 <TableColumn text="Inventory Level" fx:id="productInventoryLevelColumn"/>
                 <TableColumn text="Price/Cost per Unit" fx:id="productPriceColumn"/>
             </columns>
         </TableView>
-        <Button fx:id="addProductButton" onAction="#addProduct" text="Add" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-        <Button fx:id="modifyProductButton" onAction="#modifyProduct" text="Modify" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-        <Button fx:id="deleteProductButton" onAction="#deleteProduct" text="Delete" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+        <Button fx:id="addProductButton" onAction="#addProduct" text="Add" GridPane.columnIndex="0"
+                GridPane.rowIndex="2"/>
+        <Button fx:id="modifyProductButton" onAction="#modifyProduct" text="Modify" GridPane.columnIndex="1"
+                GridPane.rowIndex="2"/>
+        <Button fx:id="deleteProductButton" onAction="#deleteProduct" text="Delete" GridPane.columnIndex="2"
+                GridPane.rowIndex="2"/>
     </GridPane>
     <HBox GridPane.columnIndex="2" GridPane.rowIndex="2" alignment="BOTTOM_RIGHT">
         <Button onAction="#exitProgram" text="Exit"/>

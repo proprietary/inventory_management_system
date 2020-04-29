@@ -15,12 +15,14 @@ public class ModifyProductScreen extends ProductScreen {
         this.thisProduct = products.get(index);
     }
 
-    @FXML protected void initialize() {
+    @FXML
+    protected void initialize() {
         super.initialize();
         title.setText("Modify Product");
     }
 
-    @Override @FXML
+    @Override
+    @FXML
     public void save() {
         // dummy function because input is already saved through the data bindings
         try {
