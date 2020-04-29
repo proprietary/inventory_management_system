@@ -1,11 +1,8 @@
 package GUI;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.util.converter.NumberStringConverter;
 import model.Part;
 import model.Product;
 
@@ -29,8 +26,9 @@ public class AddProductScreen extends ProductScreen {
         try {
             final Product p = getProductModel();
             checkProductCount();
+            checkProductPrice();
             this.products.add(p);
-        } catch (ProductPartCountException e) {
+        } catch (ProductPartCountException | ProductPriceException e) {
             Alert.display(e.getMessage());
         }
     }

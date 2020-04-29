@@ -7,7 +7,6 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.converter.NumberStringConverter;
 import model.InHouse;
-import model.Inventory;
 import model.Outsourced;
 import model.Part;
 

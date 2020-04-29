@@ -1,9 +1,7 @@
 package GUI;
 
-import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.util.converter.NumberStringConverter;
 import model.Part;
 import model.Product;
 
@@ -25,6 +23,11 @@ public class ModifyProductScreen extends ProductScreen {
     @Override @FXML
     public void save() {
         // dummy function because input is already saved through the data bindings
+        try {
+            checkProductPrice();
+        } catch (ProductPriceException e) {
+            Alert.display(e.getMessage());
+        }
     }
 
     @Override

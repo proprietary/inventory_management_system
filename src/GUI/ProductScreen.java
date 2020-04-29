@@ -108,6 +108,19 @@ abstract public class ProductScreen {
         }
     }
 
+    protected void checkProductPrice() throws ProductPriceException {
+        // J.  Write code to implement exception controls with custom error messages for one requirement out of each of the following sets (pick one from each):
+        //  ensuring that the price of a product cannot be less than the cost of the parts
+        final Product p = getProductModel();
+        double sum = 0.0;
+        for (final Part x : p.getAllAssociatedParts()) {
+            sum += x.getPrice();
+        }
+        if (sum > p.getPrice()) {
+            throw new ProductPriceException(String.format("Price of all parts is $%.2f which is more than the price of the product: $%.2f", sum, p.getPrice()));
+        }
+    }
+
     @FXML private void closeModal() {
         // J.  Write code to implement exception controls with custom error messages for one requirement out of each of the following sets (pick one from each):
         // - including a confirm dialogue for all “Delete” and “Cancel” buttons
