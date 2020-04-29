@@ -10,6 +10,7 @@ import model.Outsourced;
 import model.Part;
 import model.Product;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 public class Main extends Application {
@@ -40,10 +41,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader ldr = new FXMLLoader(getClass().getResource("MainScreen.fxml"));
-        ldr.setController(new Controller(Main.generateTestParts(), Main.generateTestProducts()));
+        URL location = getClass().getClassLoader().getResource("MainScreen.fxml");
+        FXMLLoader ldr = new FXMLLoader(location);
+        ldr.setController(new Controller(generateTestParts(), generateTestProducts()));
         Parent root = ldr.load();
-        primaryStage.setTitle("");
+        primaryStage.setTitle("Inventory Management System");
         primaryStage.setScene(new Scene(root, 1500, 800));
         primaryStage.show();
     }

@@ -17,6 +17,7 @@ import model.Part;
 import model.Product;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -110,10 +111,11 @@ public class Controller {
             Stage s = new Stage();
             s.initModality(APPLICATION_MODAL);
             s.setTitle("Add/Modify Product");
-            FXMLLoader ldr = new FXMLLoader(getClass().getResource("ProductScreen.fxml"));
+            URL location = Main.class.getClassLoader().getResource("ProductScreen.fxml");
+            FXMLLoader ldr = new FXMLLoader(location);
             ldr.setController(screenController);
             Parent root = ldr.load();
-            s.setScene(new Scene(root));
+            s.setScene(new Scene(root, 1000, 800));
             s.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -126,7 +128,8 @@ public class Controller {
             Stage v = new Stage();
             v.initModality(APPLICATION_MODAL);
             v.setTitle("Add/Modify Part");
-            FXMLLoader ldr = new FXMLLoader(getClass().getResource("PartScreen.fxml"));
+            URL location = Main.class.getClassLoader().getResource("PartScreen.fxml");
+            FXMLLoader ldr = new FXMLLoader(location);
             ldr.setController(screenController);
             Parent root = ldr.load();
             v.setScene(new Scene(root));

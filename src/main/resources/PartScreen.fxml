@@ -52,11 +52,11 @@
 
         <!-- Machine ID -->
         <Label text="Machine ID"/>
-        <TextField fx:id="machineIdField" disable="${inHouseRadioButton.isSelected()}"/>
+        <TextField fx:id="machineIdField" disable="${inHouseRadioButton.selected}"/>
 
         <!-- Company name -->
         <Label text="Company name"/>
-        <TextField fx:id="companyNameField" disable="${outsourcedRadioButton.isSelected()}"/>
+        <TextField fx:id="companyNameField" disable="${outsourcedRadioButton.selected}"/>
     </VBox>
 
     <HBox GridPane.columnIndex="0" GridPane.rowIndex="3">

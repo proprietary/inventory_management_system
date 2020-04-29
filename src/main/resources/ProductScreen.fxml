@@ -8,6 +8,9 @@
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             xmlns="http://javafx.com/javafx"
             prefHeight="400.0" prefWidth="600.0">
+    <padding>
+        <Insets top="25" right="25" bottom="25" left="25" />
+    </padding>
     <top>
         <Text fx:id="title" text="getTitleText()" GridPane.columnIndex="0" GridPane.rowIndex="0">
             <font>
@@ -51,7 +54,7 @@
                     <TextField fx:id="partsSearchQueryField"/>
                     <Button fx:id="partsSearchButton" text="Search"/>
                 </HBox>
-                <TableView fx:id="partsSearchTableView">
+                <TableView fx:id="partsSearchTableView" minWidth="500">
                     <placeholder>
                         <Label text="No rows to display."/>
                     </placeholder>
@@ -63,7 +66,7 @@
                     </columns>
                 </TableView>
                 <Button fx:id="addPartButton" text="Add" onAction="#addAssociatedPart"/>
-                <TableView fx:id="associatedPartsTableView">
+                <TableView fx:id="associatedPartsTableView" minWidth="500">
                     <placeholder>
                         <Label text="No rows to display."/>
                     </placeholder>
