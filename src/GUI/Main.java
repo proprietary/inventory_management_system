@@ -31,10 +31,10 @@ public class Main extends Application {
 
     public static ArrayList<Part> generateTestParts() {
         ArrayList<Part> parts = new ArrayList<>();
-        parts.add(new InHouse(1, "in house part #1", 10.0, 20, 10, 100, 0));
-        parts.add(new InHouse(2, "in house part #2", 10.0, 20, 10, 100, 0));
-        parts.add(new Outsourced(3, "outsourced part #1", 10.0, 20, 10, 100, "company #1"));
-        parts.add(new InHouse(4, "in house part #3", 10.0, 20, 10, 100, 0));
+        parts.add(new InHouse("in house part #1", 10.0, 20, 10, 100, 0));
+        parts.add(new InHouse("in house part #2", 10.0, 20, 10, 100, 0));
+        parts.add(new Outsourced("outsourced part #1", 10.0, 20, 10, 100, "company #1"));
+        parts.add(new InHouse("in house part #3", 10.0, 20, 10, 100, 0));
         return parts;
     }
 

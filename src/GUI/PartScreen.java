@@ -1,48 +1,54 @@
 package GUI;
 
+import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.util.converter.NumberStringConverter;
 import model.InHouse;
 import model.Outsourced;
 import model.Part;
 
 import java.util.Optional;
 
-public class PartScreen {
+public abstract class PartScreen {
     private int index_;
     private ToggleGroup productType;
-    @FXML private RadioButton inHouseRadioButton;
-    @FXML private RadioButton outsourcedRadioButton;
-    @FXML private TextField idField;
-    @FXML private TextField nameField;
-    @FXML private TextField inventoryField;
-    @FXML private TextField priceField;
-    @FXML private TextField minField;
-    @FXML private TextField maxField;
-    @FXML private TextField machineIdField;
-    @FXML private TextField companyNameField;
-    @FXML private Button saveButton;
-    @FXML private Button cancelButton;
-    private ObservableList<Part> allParts;
-    private CreateOrUpdateMode mode;
+    @FXML protected RadioButton inHouseRadioButton;
+    @FXML protected RadioButton outsourcedRadioButton;
+    @FXML protected TextField idField;
+    @FXML protected TextField nameField;
+    @FXML protected TextField inventoryField;
+    @FXML protected TextField priceField;
+    @FXML protected TextField minField;
+    @FXML protected TextField maxField;
+    @FXML protected TextField machineIdField;
+    @FXML protected TextField companyNameField;
+    @FXML protected Button saveButton;
+    @FXML protected Button cancelButton;
+    protected ObservableList<Part> allParts;
 
-    private PartScreen(ObservableList<Part> allParts, CreateOrUpdateMode mode, int index) {
+    protected PartScreen(ObservableList<Part> allParts) {
         this.allParts = allParts;
-        this.mode = mode;
-        this.index_ = index;
     }
 
-    public PartScreen(ObservableList<Part> allParts, int index) {
-        this(allParts, CreateOrUpdateMode.UPDATE, index);
-    }
+    protected abstract Part getPartModel();
 
-    public PartScreen(ObservableList<Part> allParts) {
-        this(allParts, CreateOrUpdateMode.CREATE, -1);
-    }
+    protected abstract void setPartModel(Part part);
 
     @FXML public void initialize() {
+        final Part thisPart = getPartModel();
+
+        initInputMasks();
+        initDataBindings();
+
+        if (thisPart instanceof Outsourced) {
+            initBindingsForOutsourced();
+        } else if (thisPart instanceof InHouse) {
+            initBindingsForInHouse();
+        }
+
         // Radio button logic
 
         // ensure that only one of either In House or Outsourced can be checked
@@ -51,93 +57,98 @@ public class PartScreen {
         outsourcedRadioButton.setToggleGroup(tg);
 
         // show different fields based on which radio is toggled
-        inHouseRadioButton.setOnAction(evt -> { updateBasedOnPartType(); });
-        outsourcedRadioButton.setOnAction(evt -> { updateBasedOnPartType(); });
+        // react to change by converting to a different underlying Part subtype
+        inHouseRadioButton.setOnAction(evt -> {
+            final Part oldPart = getPartModel();
+            setPartModel(new InHouse(oldPart.getId(), oldPart.getName(), oldPart.getPrice(), oldPart.getStock(), oldPart.getMin(), oldPart.getMax(), 0));
+            togglePartType(InHouse.class);
+        });
+        outsourcedRadioButton.setOnAction(evt -> {
+            final Part oldPart = getPartModel();
+            setPartModel(new Outsourced(oldPart.getId(), oldPart.getName(), oldPart.getPrice(), oldPart.getStock(), oldPart.getMin(), oldPart.getMax(), ""));
+            togglePartType(Outsourced.class);
+        });
+    }
 
-        // For modifying an existing part: Populate fields
-        if (mode == CreateOrUpdateMode.UPDATE) {
-            Part existingPart = this.allParts.get(this.index_);
-            idField.setText(Integer.toString(existingPart.getId()));
-            nameField.setText(existingPart.getName());
-            inventoryField.setText(Integer.toString(existingPart.getStock()));
-            priceField.setText(Double.toString(existingPart.getPrice()));
-            minField.setText(Integer.toString(existingPart.getMin()));
-            maxField.setText(Integer.toString(existingPart.getMax()));
-            if (existingPart instanceof Outsourced) {
-                outsourcedRadioButton.setSelected(true);
-                updateBasedOnPartType();
-                companyNameField.setText(((Outsourced) existingPart).getCompanyName());
-            } else if (existingPart instanceof InHouse) {
-                inHouseRadioButton.setSelected(true);
-                updateBasedOnPartType();
-                machineIdField.setText(Integer.toString(((InHouse) existingPart).getMachineId()));
-            }
-        } else if (mode == CreateOrUpdateMode.CREATE) {
-            // select In House as the default mode
-            inHouseRadioButton.setSelected(true);
-            updateBasedOnPartType();
-        }
-
-        // set up input masks--prevent incorrectly formatted input
+    /**
+     * Set up input masks--prevent incorrectly formatted input
+     */
+    private void initInputMasks() {
         inventoryField.setTextFormatter(new TextFormatter<String>(FormattedTextFields.integerFieldFormatter));
         priceField.setTextFormatter(new TextFormatter<String>(FormattedTextFields.doubleFieldFormatter));
         minField.setTextFormatter(new TextFormatter<String>(FormattedTextFields.integerFieldFormatter));
         maxField.setTextFormatter(new TextFormatter<String>(FormattedTextFields.integerFieldFormatter));
     }
 
-    private void updateBasedOnPartType() {
-        // show either Machine ID field or Company name field
-        machineIdField.setDisable(isOutsourced());
-        companyNameField.setDisable(isInHouse());
+    private void initDataBindings() {
+        final Part thisPart = getPartModel();
+        // set up data bindings
+        Bindings.bindBidirectional(this.nameField.textProperty(), thisPart.nameProperty());
+        Bindings.bindBidirectional(this.inventoryField.textProperty(), thisPart.stockProperty(), new NumberStringConverter());
+        Bindings.bindBidirectional(this.priceField.textProperty(), thisPart.priceProperty(), new NumberStringConverter());
+        Bindings.bindBidirectional(this.minField.textProperty(), thisPart.minProperty(), new NumberStringConverter());
+        Bindings.bindBidirectional(this.maxField.textProperty(), thisPart.maxProperty(), new NumberStringConverter());
     }
 
-    @FXML private void save() {
-        // TODO
-        // TODO detect if already exists
-        final Optional<Part> p = snapshot();
-        p.ifPresent(part -> {
-            System.out.println(p.get().getName() + " saved!");
-            allParts.add(part);
-        });
+    private void deinitDataBindings() {
+        final Part p = getPartModel();
+        Bindings.unbindBidirectional(nameField.textProperty(), p.nameProperty());
+        Bindings.unbindBidirectional(inventoryField.textProperty(), p.stockProperty());
+        Bindings.unbindBidirectional(priceField.textProperty(), p.priceProperty());
+        Bindings.unbindBidirectional(minField.textProperty(), p.minProperty());
+        Bindings.unbindBidirectional(maxField.textProperty(), p.maxProperty());
     }
 
-    /**
-     * Capture snapshot of the form state as a Part object
-     * @return Optional of the Part type; if form state is invalid, an empty Optional
-     */
-    private Optional<Part> snapshot() {
-        String name = nameField.getText();
-        int stock = Integer.parseInt(inventoryField.getText());
-        double price = Double.parseDouble(priceField.getText());
-        int min = Integer.parseInt(minField.getText());
-        int max = Integer.parseInt(maxField.getText());
-        if (max < min) {
-            // Display error message
-            Alert.display("The minimum number of parts should not exceed the maximum number of parts.");
-            return Optional.empty();
+    private void togglePartType(Class<? extends Part> newType) {
+        if (newType.equals(InHouse.class)) {
+            deinitDataBindings();
+            deinitBindingsForOutsourced();
+            initDataBindings();
+            initBindingsForInHouse();
+        } else if (newType.equals(Outsourced.class)) {
+            deinitDataBindings();
+            deinitBindingsForInHouse();
+            initDataBindings();
+            initBindingsForOutsourced();
         }
-        if (isInHouse()) {
-            int machineId = Integer.parseInt(machineIdField.getText());
-            InHouse newPart = new InHouse(10 /* TODO refactor to static autoincrementor */, name, price, stock, min, max, machineId);
-            return Optional.of(newPart);
-        } else if (isOutsourced()) {
-            String companyName = companyNameField.getText();
-            Outsourced newPart = new Outsourced(10 /* TODO: refactor to static autoincrementor */, name, price, stock, min, max, companyName);
-            return Optional.of(newPart);
-        }
-        return Optional.empty();
     }
 
-    private boolean isInHouse() {
-        return inHouseRadioButton.isSelected();
+    protected void initBindingsForInHouse() {
+        final Part p = getPartModel();
+        if (p instanceof InHouse)
+            Bindings.bindBidirectional(machineIdField.textProperty(), ((InHouse) p).machineIdProperty(), new NumberStringConverter());
     }
 
-    private boolean isOutsourced() {
-        return outsourcedRadioButton.isSelected();
+    protected void deinitBindingsForInHouse() {
+        final Part p = getPartModel();
+        if (p instanceof InHouse)
+            Bindings.unbindBidirectional(machineIdField.textProperty(), ((InHouse) p).machineIdProperty());
     }
+
+    protected void initBindingsForOutsourced() {
+        final Part p = getPartModel();
+        if (p instanceof Outsourced)
+            Bindings.bindBidirectional(companyNameField.textProperty(), ((Outsourced) p).companyNameProperty());
+    }
+
+    protected void deinitBindingsForOutsourced() {
+        final Part p = getPartModel();
+        if (p instanceof Outsourced)
+            Bindings.bindBidirectional(companyNameField.textProperty(), ((Outsourced) p).companyNameProperty());
+    }
+
+    @FXML protected abstract void save();
 
     @FXML private void closeModal() {
         Stage s = (Stage) cancelButton.getScene().getWindow();
         s.close();
+    }
+
+    protected boolean isInHouse() {
+        return getPartModel() instanceof InHouse;
+    }
+
+    protected boolean isOutsourced() {
+        return getPartModel() instanceof Outsourced;
     }
 }

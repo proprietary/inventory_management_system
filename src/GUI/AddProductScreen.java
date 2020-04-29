@@ -25,12 +25,12 @@ public class AddProductScreen extends ProductScreen {
 
     @Override
     @FXML
-    public void save() {
+    public final void save() {
         this.products.add(this.getProductModel());
     }
 
     @Override
-    public Product getProductModel() {
+    public final Product getProductModel() {
         return thisProduct;
     }
 

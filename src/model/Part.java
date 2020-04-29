@@ -12,7 +12,7 @@ public abstract class Part implements IndexedById {
     private IntegerProperty minProperty = new SimpleIntegerProperty();
     private IntegerProperty maxProperty = new SimpleIntegerProperty();
 
-    private Part(int id, String name, double price, int stock, int min, int max) {
+    public Part(int id, String name, double price, int stock, int min, int max) {
         // update auto-incremented id to highest value
         if (id > IdSequence) {
             IdSequence = id;
@@ -75,5 +75,25 @@ public abstract class Part implements IndexedById {
 
     public int getMax() {
         return maxProperty.get();
+    }
+
+    public StringProperty nameProperty() {
+        return nameProperty;
+    }
+
+    public DoubleProperty priceProperty() {
+        return priceProperty;
+    }
+
+    public IntegerProperty stockProperty() {
+        return stockProperty;
+    }
+
+    public IntegerProperty minProperty() {
+        return minProperty;
+    }
+
+    public IntegerProperty maxProperty() {
+        return maxProperty;
     }
 }

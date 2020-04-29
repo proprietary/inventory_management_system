@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import model.InHouse;
 import model.Part;
 import model.Product;
 
@@ -171,13 +172,13 @@ public class Controller {
         getSelectedPart().ifPresent((Part p) -> {
             int idx = this.parts_.indexOf(p);
             if (idx != -1)
-                launchPartWindow(new PartScreen(this.parts_, idx));
+                launchPartWindow(new ModifyPartScreen(this.parts_, idx));
         });
     }
 
     @FXML
     private void addPart() {
-        launchPartWindow(new PartScreen(this.parts_));
+        launchPartWindow(new AddPartScreen(this.parts_, new InHouse("", 0.0, 0, 0,0, 0)));;
     }
 
     @FXML
