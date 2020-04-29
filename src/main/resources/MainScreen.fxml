@@ -12,7 +12,8 @@
     <HBox GridPane.columnIndex="0" GridPane.rowIndex="0">
         <Text text="Inventory Management System"/>
     </HBox>
-    <GridPane xmlns:fx="http://javafx.com/fxml/1" alignment="TOP_LEFT" prefWidth="500" GridPane.columnIndex="0" GridPane.rowIndex="1" hgap="10"
+    <GridPane xmlns:fx="http://javafx.com/fxml/1" alignment="TOP_LEFT" prefWidth="500" GridPane.columnIndex="0"
+              GridPane.rowIndex="1" hgap="10"
               vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal">
         <padding>
             <Insets bottom="10" left="10" right="10" top="25"/>
@@ -38,7 +39,8 @@
         <Button fx:id="deletePartButton" text="Delete" onAction="#deletePart" GridPane.columnIndex="2"
                 GridPane.rowIndex="2"/>
     </GridPane>
-    <GridPane xmlns:fx="http://javafx.com/fxml/1" alignment="TOP_LEFT" GridPane.columnIndex="2" GridPane.rowIndex="1" hgap="10"
+    <GridPane xmlns:fx="http://javafx.com/fxml/1" alignment="TOP_LEFT" GridPane.columnIndex="2" GridPane.rowIndex="1"
+              hgap="10"
               vgap="10" xmlns="http://javafx.com/javafx/10.0.2-internal">
         <padding>
             <Insets bottom="10" left="10" right="10" top="25"/>

@@ -36,6 +36,32 @@ public class Product implements IndexedById {
         return ++IdSequence;
     }
 
+    public static boolean isBlank(final Product p) {
+        return p.getName().isEmpty();
+    }
+
+    /**
+     * Verifies that the associated parts all cost no more than the price of the whole product
+     *
+     * @param p Product to check
+     * @return whether the price of the cumulative parts is less than or equal to the price of the whole product
+     */
+    public static boolean hasSanePrice(final Product p) {
+        double sum = 0.0;
+        for (final Part part : p.getAllAssociatedParts()) {
+            sum += part.getPrice();
+        }
+        return sum < p.getPrice();
+    }
+
+    public static boolean hasSaneInventoryValues(final Product p) {
+        return p.getStock() >= p.getMin() && p.getStock() <= p.getMax();
+    }
+
+    public static boolean isValid(final Product p) {
+        return !isBlank(p) && hasSanePrice(p);
+    }
+
     public String getName() {
         return name.get();
     }
@@ -115,30 +141,5 @@ public class Product implements IndexedById {
 
     public boolean deleteAssociatedPart(Part selectedPart) {
         return associatedParts.remove(selectedPart);
-    }
-
-    public static boolean isBlank(final Product p) {
-        return p.getName().isEmpty();
-    }
-
-    /**
-     * Verifies that the associated parts all cost no more than the price of the whole product
-     * @param p Product to check
-     * @return whether the price of the cumulative parts is less than or equal to the price of the whole product
-     */
-    public static boolean hasSanePrice(final Product p) {
-        double sum = 0.0;
-        for (final Part part : p.getAllAssociatedParts()) {
-            sum += part.getPrice();
-        }
-        return sum < p.getPrice();
-    }
-
-    public static boolean hasSaneInventoryValues(final Product p) {
-        return p.getStock() >= p.getMin() && p.getStock() <= p.getMax();
-    }
-
-    public static boolean isValid(final Product p) {
-        return !isBlank(p) && hasSanePrice(p);
     }
 }

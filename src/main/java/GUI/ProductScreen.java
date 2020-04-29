@@ -1,10 +1,6 @@
 package GUI;
 
-import javafx.beans.InvalidationListener;
-import javafx.beans.binding.Binding;
 import javafx.beans.binding.Bindings;
-import javafx.beans.binding.BooleanBinding;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
@@ -23,8 +19,6 @@ import java.util.function.Consumer;
 abstract public class ProductScreen {
     protected final ObservableList<Part> parts;
     protected final ObservableList<Product> products;
-    @FXML
-    private BorderPane container;
     @FXML
     protected Button cancelButton, saveButton, partsSearchButton, addPartButton;
     @FXML
@@ -45,6 +39,8 @@ abstract public class ProductScreen {
     protected TableColumn<Part, Double> priceColumn, partsSearchPriceColumn;
     @FXML
     protected TextField partsSearchQueryField;
+    @FXML
+    private BorderPane container;
 
     protected ProductScreen(ObservableList<Product> products, ObservableList<Part> parts) {
         this.products = products;

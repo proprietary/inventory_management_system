@@ -33,6 +33,18 @@ public abstract class Part implements IndexedById {
         return ++IdSequence;
     }
 
+    public static boolean isBlank(final Part p) {
+        return p.getName().isEmpty();
+    }
+
+    public static boolean hasSaneInventoryValues(final Part p) {
+        return p.getStock() >= p.getMin() && p.getStock() <= p.getMax();
+    }
+
+    public static boolean isValid(final Part p) {
+        return !isBlank(p) && hasSaneInventoryValues(p);
+    }
+
     public int getId() {
         return id;
     }
@@ -95,17 +107,5 @@ public abstract class Part implements IndexedById {
 
     public IntegerProperty maxProperty() {
         return max;
-    }
-
-    public static boolean isBlank(final Part p) {
-        return p.getName().isEmpty();
-    }
-
-    public static boolean hasSaneInventoryValues(final Part p) {
-        return p.getStock() >= p.getMin() && p.getStock() <= p.getMax();
-    }
-
-    public static boolean isValid(final Part p) {
-        return !isBlank(p) && hasSaneInventoryValues(p);
     }
 }

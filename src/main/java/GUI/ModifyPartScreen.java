@@ -24,12 +24,12 @@ public class ModifyPartScreen extends PartScreen {
         this.part = part;
     }
 
-    private void setUnderlyingPartModel(Part part) {
-        allParts.set(index, part);
-    }
-
     private Part getUnderlyingPartModel() {
         return allParts.get(index);
+    }
+
+    private void setUnderlyingPartModel(Part part) {
+        allParts.set(index, part);
     }
 
     @FXML
