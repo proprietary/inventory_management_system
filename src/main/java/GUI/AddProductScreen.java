@@ -7,13 +7,14 @@ import model.Part;
 import model.Product;
 
 public class AddProductScreen extends ProductScreen {
-    private Product thisProduct = new Product("", 0.0, 0, 0, 0);
+    private Product product;
     ;
     @FXML
     private Button addPartButton;
 
     public AddProductScreen(ObservableList<Product> products, ObservableList<Part> parts) {
         super(products, parts);
+        this.product = new Product("", 0.0, 0, 0, 0);
     }
 
     @FXML
@@ -40,12 +41,12 @@ public class AddProductScreen extends ProductScreen {
 
     @Override
     public final Product getProductModel() {
-        return thisProduct;
+        return product;
     }
 
     @Override
     public final void setProductModel(final Product p) {
-        this.thisProduct = p;
+        this.product = p;
     }
 
 }

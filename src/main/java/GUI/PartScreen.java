@@ -104,11 +104,11 @@ public abstract class PartScreen {
         idField.setText(Integer.toString(thisPart.getId()));
         // grey out the Save button if the part is blank
         saveButton.disableProperty().bind(Bindings.isEmpty(nameField.textProperty()));
-        Bindings.bindBidirectional(this.nameField.textProperty(), thisPart.nameProperty());
-        Bindings.bindBidirectional(this.inventoryField.textProperty(), thisPart.stockProperty(), new NumberStringConverter());
-        Bindings.bindBidirectional(this.priceField.textProperty(), thisPart.priceProperty(), new NumberStringConverter());
-        Bindings.bindBidirectional(this.minField.textProperty(), thisPart.minProperty(), new NumberStringConverter());
-        Bindings.bindBidirectional(this.maxField.textProperty(), thisPart.maxProperty(), new NumberStringConverter());
+        Bindings.bindBidirectional(nameField.textProperty(), thisPart.nameProperty());
+        Bindings.bindBidirectional(inventoryField.textProperty(), thisPart.stockProperty(), new NumberStringConverter());
+        Bindings.bindBidirectional(priceField.textProperty(), thisPart.priceProperty(), new NumberStringConverter());
+        Bindings.bindBidirectional(minField.textProperty(), thisPart.minProperty(), new NumberStringConverter());
+        Bindings.bindBidirectional(maxField.textProperty(), thisPart.maxProperty(), new NumberStringConverter());
     }
 
     private void deinitDataBindings() {
