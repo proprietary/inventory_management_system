@@ -53,7 +53,7 @@ public class ModifyPartScreen extends PartScreen {
                 setUnderlyingPartModel(p);
                 closeModalImpl();
             }
-        } catch (InventoryBoundsException | ZeroStockException e) {
+        } catch (InventoryBoundsException | ZeroStockException | MinMaxMismatchException e) {
             Alert.display(e.getMessage());
         }
 

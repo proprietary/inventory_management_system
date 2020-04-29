@@ -161,12 +161,14 @@ public abstract class PartScreen {
     @FXML
     protected abstract void save();
 
-    protected void checkInventory() throws InventoryBoundsException, ZeroStockException {
+    protected void checkInventory() throws InventoryBoundsException, ZeroStockException, MinMaxMismatchException {
         // J.  Write code to implement exception controls with custom error messages for one requirement out of each of the following sets (pick one from each):
         // - entering an inventory value that exceeds the minimum or maximum value for that part or product
         final Part p = getPartModel();
         if (p.getStock() == 0)
             throw new ZeroStockException();
+        if (!Part.hasSaneMinMaxValues(p))
+            throw new MinMaxMismatchException(p.getMin(), p.getMax());
         if (!Part.hasSaneInventoryValues(p))
             throw new InventoryBoundsException(String.format("Stock amount (%d) must be at least the minimum (%d) and no more than the maximum (%d)", p.getStock(), p.getMin(), p.getMax()));
     }

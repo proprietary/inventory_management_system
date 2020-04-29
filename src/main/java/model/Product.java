@@ -54,6 +54,10 @@ public class Product implements IndexedById {
         return sum < p.getPrice();
     }
 
+    public static boolean hasSaneMinMaxValues(final Product p) {
+        return p.getMax() >= p.getMin();
+    }
+
     public static boolean hasSaneInventoryValues(final Product p) {
         return p.getStock() >= p.getMin() && p.getStock() <= p.getMax();
     }

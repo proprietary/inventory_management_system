@@ -41,6 +41,10 @@ public abstract class Part implements IndexedById {
         return p.getStock() >= p.getMin() && p.getStock() <= p.getMax();
     }
 
+    public static boolean hasSaneMinMaxValues(final Part p) {
+        return p.getMax() >= p.getMin();
+    }
+
     public static boolean isValid(final Part p) {
         return !isBlank(p) && hasSaneInventoryValues(p);
     }

@@ -213,7 +213,11 @@ public class Controller {
 
     @FXML
     private void exitProgram() {
-        System.exit(1);
+        Optional<ButtonType> a = Alert.confirm("This will exit the program.");
+        a.ifPresent(x -> {
+            if(x == ButtonType.OK)
+                System.exit(1);
+        });
     }
 
     private Optional<Part> getSelectedPart() {
